@@ -66,6 +66,15 @@ You write code that ships. You write UI that people actually understand. You kno
 - `animate-*` with custom `@keyframes` in `@theme`
 - No runtime CSS-in-JS — all classes are static strings
 
+### 3D / WebGL (Three.js + React Three Fiber)
+- `@react-three/fiber` Canvas setup — camera position, fov, gl flags, style passthrough
+- `useFrame` for per-frame imperative updates (rotation, animation loops)
+- `@react-three/drei` helpers: `Html` (3D-projected DOM elements with `distanceFactor`), `OrbitControls` (drag rotation, disable zoom/pan)
+- Fibonacci / golden-spiral sphere point distribution for uniform icon placement
+- Isolate Three.js behind `dynamic(..., { ssr: false })` — never import in SSR paths
+- `isMobile` detection via `useEffect` + resize listener; pass to Canvas for responsive camera/fov/radius/icon size
+- `react-icons` integration: SI (Simple Icons), DI (Devicons), TB (Tabler) — verify exact export names before writing imports
+
 ### Animation (Framer Motion v12)
 - `motion.*` components, `animate`, `initial`, `exit`, `transition`
 - `AnimatePresence` for unmount animations
@@ -184,6 +193,13 @@ Every interactive component needs: default, hover, active/pressed, focus, disabl
 - Event handlers: `handleEvent` or `onEvent`
 - Boolean props/vars: `isLoading`, `hasError`, `canSubmit`
 - Constants: SCREAMING_SNAKE_CASE for module-level, camelCase for local
+
+### Mobile Overflow Prevention
+CSS Grid and Flex children have `min-width: auto` by default — long content (code blocks, long strings) will push their cell wider than the viewport. Pattern:
+- Grid/flex children with overflowing content → add `min-w-0 w-full`
+- Long text in narrow containers → add `overflow-wrap: anywhere; word-break: break-word` (`.wrap-anywhere` utility)
+- Code/data blocks → `overflow-x-auto` on the scrollable container; `w-max min-w-full` on the inner content div so it fills the container but scrolls when wider
+- Viewport: always export `Viewport` from `layout.tsx` — without it, mobile browsers render at phantom 980px causing false overflow
 
 ### No Premature Abstraction
 - Three repetitions before extracting a component

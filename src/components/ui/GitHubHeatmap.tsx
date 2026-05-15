@@ -9,7 +9,7 @@ function srand(seed: number) {
   return s - Math.floor(s)
 }
 
-function generateData() {
+function generateMock() {
   const today = new Date()
   const grid: { count: number; date: Date }[][] = []
 
@@ -60,34 +60,60 @@ function fmt(d: Date) {
   return d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })
 }
 
+type Cell = { count: number; date: Date }
+
 export default function GitHubHeatmap() {
-  const [grid, setGrid]       = useState<{ count: number; date: Date }[][]>([])
-  const [tip, setTip]         = useState<{ count: number; date: Date; x: number; y: number } | null>(null)
-  const year                  = new Date().getFullYear()
+  const [grid, setGrid]   = useState<Cell[][]>([])
+  const [live, setLive]   = useState(false)
+  const [tip,  setTip]    = useState<{ count: number; date: Date; x: number; y: number } | null>(null)
+  const year              = new Date().getFullYear()
 
   useEffect(() => {
-    const t = setTimeout(() => setGrid(generateData()), 0)
-    return () => clearTimeout(t)
+    async function load() {
+      try {
+        const res = await fetch('/api/contributions')
+        if (!res.ok) throw new Error()
+        const { weeks } = await res.json() as {
+          weeks: { contributionDays: { contributionCount: number; date: string }[] }[]
+        }
+
+        const parsed: Cell[][] = weeks.map((w) =>
+          w.contributionDays.map((d) => ({
+            count: d.contributionCount,
+            date:  new Date(d.date + 'T12:00:00'),
+          }))
+        )
+        setGrid(parsed)
+        setLive(true)
+      } catch {
+        setGrid(generateMock())
+      }
+    }
+
+    load()
   }, [])
 
   if (!grid.length) {
-    return <div className="mt-6 h-[100px] rounded-lg bg-bg-card border border-bg-border animate-pulse" />
+    return <div className="mt-6 h-[130px] rounded-lg bg-bg-card border border-bg-border animate-pulse" />
   }
 
   return (
     <div className="mt-6">
-      <div className="font-mono text-[10px] text-[var(--dm)] mb-2">{'// '}{year}{' contribution activity'}</div>
+      <div className="font-mono text-[10px] text-[var(--dm)] mb-2 flex items-center gap-2">
+        {'// '}{year}{' contribution activity'}
+        {live && <span className="text-green">● live</span>}
+      </div>
       <div
-        className="relative rounded-lg border border-bg-border p-3 overflow-x-auto"
+        className="relative rounded-lg border border-bg-border p-4 overflow-x-auto"
         style={{ background: '#0c1410' }}
       >
-        <div className="flex gap-[3px]" style={{ width: 'max-content' }}>
+        <div className="flex gap-[2px]" style={{ width: 'max-content' }}>
           {grid.map((week, w) => (
-            <div key={w} className="flex flex-col gap-[3px]">
+            <div key={w} className="flex flex-col gap-[2px]">
               {week.map((cell, d) => (
                 <div
                   key={d}
-                  className="w-[10px] h-[10px] rounded-[2px] cursor-pointer transition-opacity duration-100 hover:opacity-70"
+                  className="w-[13px] h-[13px] rounded-[3px] cursor-pointer transition-opacity duration-100 hover:opacity-70"
                   style={{ background: cellColor(cell.count) }}
                   onMouseEnter={(e) => {
                     const r  = e.currentTarget.getBoundingClientRect()

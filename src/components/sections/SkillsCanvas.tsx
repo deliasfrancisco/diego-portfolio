@@ -82,7 +82,7 @@ interface SkillsCanvasProps {
 }
 
 export default function SkillsCanvas({ skills, positions, hovered, setHovered, isMobile }: SkillsCanvasProps) {
-  const cameraZ = isMobile ? 12 : 9
+  const cameraZ = isMobile ? 14 : 11
   const fov     = isMobile ? 60 : 50
 
   return (
@@ -96,6 +96,11 @@ export default function SkillsCanvas({ skills, positions, hovered, setHovered, i
         <pointLight position={[10, 10, 10]} intensity={0.6} />
 
         <RotatingGroup>
+          <lineSegments>
+            <edgesGeometry args={[new THREE.IcosahedronGeometry(isMobile ? 2.8 : 3.6, 2)]} />
+            <lineBasicMaterial color="#166534" transparent opacity={0.7} />
+          </lineSegments>
+
           {skills.map((skill, i) => (
             <SkillNode
               key={skill.name}

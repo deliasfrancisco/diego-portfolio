@@ -30,13 +30,13 @@ export default function Skills() {
     return () => window.removeEventListener('resize', check)
   }, [])
 
-  const positions = fibonacciSphere(SKILLS.length, isMobile ? 2.6 : 3.5)
+  const positions = fibonacciSphere(SKILLS.length, isMobile ? 3.6 : 4.4)
 
   return (
     <section className="grid-bg py-8 md:py-[42px] px-5 md:px-[38px]">
       <SectionHeader command="# Skills.json" />
 
-      <div className="relative w-full max-w-full min-w-0 h-[320px] sm:h-[400px] md:h-[460px] border border-[var(--bdr)] rounded-lg overflow-hidden bg-[var(--bg-card)]">
+      <div className="relative w-full max-w-full min-w-0 h-[340px] sm:h-[420px] md:h-[500px] overflow-hidden">
         <SkillsCanvas
           skills={SKILLS}
           positions={positions}
@@ -45,17 +45,11 @@ export default function Skills() {
           isMobile={isMobile}
         />
 
-        {/* decorative wireframe ring */}
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-          <div
-            className="w-[160px] h-[160px] md:w-[280px] md:h-[280px] rounded-full border border-[var(--gd)] opacity-20"
-            style={{ borderStyle: 'dashed' }}
-          />
-        </div>
-
-        {/* hint */}
-        <div className="absolute bottom-3 left-1/2 -translate-x-1/2 font-mono text-[10px] text-[var(--dm)] tracking-wider pointer-events-none whitespace-nowrap">
-          {'⟳ drag to rotate · hover to highlight · auto-rotation active'}
+        {/* hint — backdrop so text stays readable over rotating wireframe */}
+        <div className="absolute bottom-2 left-1/2 -translate-x-1/2 font-mono text-[10px] text-[var(--dm)] tracking-wider pointer-events-none whitespace-nowrap px-3 py-1 rounded"
+          style={{ background: 'rgba(7,12,8,0.6)' }}
+        >
+          {'⟳ drag to rotate · hover to highlight'}
         </div>
       </div>
     </section>
