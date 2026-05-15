@@ -31,9 +31,22 @@ src/components/
   ui/
     CodeEditor.tsx  overflow-x-auto body; w-max min-w-full inner; flex-wrap run bar
     TerminalWindow.tsx  overflow-x-auto body
-    GitHubHeatmap.tsx   52×7 seeded mock; overflow-x-auto wrapper in About
+    GitHubHeatmap.tsx   fetches /api/contributions (live); falls back to seeded mock; shows ● live badge; overflow-x-auto wrapper in About
+    LangToggle.tsx  fixed top-4 right-[52px] md:right-4 z-[60]; toggles EN↔PT; shows opposite lang label
+    Footer.tsx      client component (needs useLang); page.tsx uses this instead of inline footer
     KernelBoot.tsx  sessionStorage guard; z-[200]
     SectionHeader / SectionReveal / Cursor
+
+  Providers.tsx     'use client' wrapper — wraps layout.tsx body with LangProvider; keeps layout.tsx as server component
+
+src/contexts/
+  LangContext.tsx   Lang ('en'|'pt') state; persists to localStorage key 'lang'; useLang() hook
+
+src/data/
+  translations.ts   T[lang].nav / .hero / .about / .experience / .contact / .footer — all translatable strings EN+PT
+
+src/app/
+  api/contributions/route.ts  GET → GitHub GraphQL (GITHUB_PAT env); returns { weeks }; revalidate 1800s; no PAT → 500
 ```
 
 ## Colors
@@ -62,11 +75,19 @@ SKILLS         Skill[] → { name, icon: IconType, color }
                       react-icons/di (DiMsqlServer DiDotnet)
                       react-icons/tb (TbBrandCSharp TbBrandAzure TbBrandWindows)
                ⚠ verify export names before importing (SiSharp exists, SiCsharp does NOT)
-EXPERIENCE     git-log entries
-PROJECTS       repo cards
+EXPERIENCE     git-log entries; each has desc (EN) + descPt (PT)
+PROJECTS       repo cards; each has desc (EN) + descPt (PT)
 C_SHARP_SNIPPET Hero editor code
 LOADED_MODULES  Hero pills
 ```
+
+## i18n
+- `Lang = 'en' | 'pt'`; context in `src/contexts/LangContext.tsx`; persisted to `localStorage('lang')`
+- All strings in `src/data/translations.ts` as `T[lang].section.key`
+- `EXPERIENCE[n].descPt` and `PROJECTS[n].descPt` hold PT descriptions inline in content.ts
+- Components consume with: `const { lang } = useLang(); const t = T[lang]`
+- `LangToggle` positioned `right-[52px] md:right-4` — left of mobile hamburger (`right-4 z-[70]`)
+- Server layout preserved: `Providers.tsx` client wrapper in `layout.tsx`; `page.tsx` stays server
 
 ## Conventions
 - `'use client'` → any file with hooks / browser APIs / Framer Motion
@@ -83,6 +104,7 @@ LOADED_MODULES  Hero pills
 NEXT_PUBLIC_EMAILJS_SERVICE_ID=
 NEXT_PUBLIC_EMAILJS_TEMPLATE_ID=
 NEXT_PUBLIC_EMAILJS_PUBLIC_KEY=
+GITHUB_PAT=          # server-only; read:user scope; used by /api/contributions
 ```
 
 ## Commands
