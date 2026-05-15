@@ -11,11 +11,13 @@ interface SkillNodeProps {
   skill: Skill
   hovered: string | null
   setHovered: (name: string | null) => void
+  isMobile: boolean
 }
 
-function SkillNode({ position, skill, hovered, setHovered }: SkillNodeProps) {
+function SkillNode({ position, skill, hovered, setHovered, isMobile }: SkillNodeProps) {
   const Icon = skill.icon
   const isHovered = hovered === skill.name
+  const iconSize  = isMobile ? 24 : 36
 
   return (
     <Html position={position} center distanceFactor={8} style={{ pointerEvents: 'auto' }}>
@@ -34,7 +36,7 @@ function SkillNode({ position, skill, hovered, setHovered }: SkillNodeProps) {
         }}
       >
         <Icon
-          size={36}
+          size={iconSize}
           style={{
             color: skill.color,
             filter: isHovered ? `drop-shadow(0 0 8px ${skill.color})` : 'none',
@@ -76,14 +78,18 @@ interface SkillsCanvasProps {
   positions: [number, number, number][]
   hovered: string | null
   setHovered: (name: string | null) => void
+  isMobile: boolean
 }
 
-export default function SkillsCanvas({ skills, positions, hovered, setHovered }: SkillsCanvasProps) {
+export default function SkillsCanvas({ skills, positions, hovered, setHovered, isMobile }: SkillsCanvasProps) {
+  const cameraZ = isMobile ? 12 : 9
+  const fov     = isMobile ? 60 : 50
+
   return (
     <Canvas
-      camera={{ position: [0, 0, 9], fov: 50 }}
+      camera={{ position: [0, 0, cameraZ], fov }}
       gl={{ alpha: true, antialias: true }}
-      style={{ background: 'transparent', width: '100%', height: '100%' }}
+      style={{ background: 'transparent', width: '100%', height: '100%', maxWidth: '100%' }}
     >
       <Suspense fallback={null}>
         <ambientLight intensity={0.8} />
@@ -97,6 +103,7 @@ export default function SkillsCanvas({ skills, positions, hovered, setHovered }:
               skill={skill}
               hovered={hovered}
               setHovered={setHovered}
+              isMobile={isMobile}
             />
           ))}
         </RotatingGroup>

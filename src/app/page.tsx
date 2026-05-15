@@ -35,10 +35,10 @@ export default function Home() {
           <section id="contact"><Contact /></section>
         </SectionReveal>
         <footer
-          className="py-4 text-center font-mono text-[10px] border-t border-bg-border"
+          className="py-6 md:py-4 px-5 md:px-12 text-center font-mono text-[10px] border-t border-bg-border"
           style={{ color: 'var(--dm)' }}
         >
-          Built with Next.js · TypeScript · Tailwind · // Diego Francisco © 2026
+          Built with Next.js · TypeScript · Tailwind · {'// Diego Francisco © 2026'}
           <div className="mt-1 opacity-50">keys 1–6 navigate sections</div>
         </footer>
       </main>

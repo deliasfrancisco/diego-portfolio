@@ -9,7 +9,7 @@ import Cursor from '@/components/ui/Cursor'
 type Status = 'idle' | 'sending' | 'success' | 'error'
 
 const INPUT_CLASS =
-  'w-full bg-[#030808] border border-bg-border rounded px-3 py-2 font-mono text-[12px] text-[var(--tx)] outline-none focus:border-green-dark transition-colors duration-150'
+  'w-full min-w-0 bg-[#030808] border border-bg-border rounded px-3 py-2 font-mono text-[12px] text-[var(--tx)] outline-none focus:border-green-dark transition-colors duration-150'
 
 const BTN_LABEL: Record<Status, string> = {
   idle:    '▶ SendMessage()',
@@ -44,7 +44,7 @@ export default function Contact() {
     : 'bg-green text-bg-deep hover:bg-green-bright cursor-pointer'
 
   return (
-    <section className="py-[42px] px-5 md:px-[38px]">
+    <section className="grid-bg py-8 md:py-[42px] px-5 md:px-[38px]">
       <SectionHeader command="$ ./contact.exe" />
       <motion.div
         ref={ref}
@@ -54,12 +54,12 @@ export default function Contact() {
         className="grid gap-[18px] grid-cols-1 md:grid-cols-2"
       >
         {/* Left — JSON viewer */}
-        <div className="rounded-lg overflow-hidden border border-bg-border">
+        <div className="min-w-0 w-full rounded-lg overflow-hidden border border-bg-border">
           <div className="flex items-center gap-2 px-3 py-2 bg-bg-card border-b border-bg-border">
-            <span className="w-2 h-2 rounded-full bg-green" />
-            <span className="font-mono text-[11px] text-[var(--mu)]">appsettings.contact.json</span>
+            <span className="w-2 h-2 rounded-full bg-green shrink-0" />
+            <span className="font-mono text-[11px] text-[var(--mu)] wrap-anywhere">appsettings.contact.json</span>
           </div>
-          <div className="p-4 font-mono text-[12px] leading-6" style={{ background: '#030808' }}>
+          <div className="p-3 md:p-4 font-mono text-[11px] md:text-[12px] leading-6 overflow-x-auto" style={{ background: '#030808' }}>
             <span className="j-bkt">{'{'}</span>
             <br />
             {[
@@ -87,7 +87,7 @@ export default function Contact() {
         </div>
 
         {/* Right — Form */}
-        <div className="rounded-lg overflow-hidden border border-bg-border">
+        <div className="min-w-0 w-full rounded-lg overflow-hidden border border-bg-border">
           <div className="flex items-center justify-between px-3 py-2 bg-bg-card border-b border-bg-border">
             <span className="font-mono text-[11px] text-[var(--mu)]">SendMessage.cs</span>
             <span className="font-mono text-[10px] text-[var(--dm)]">× close</span>
@@ -139,7 +139,7 @@ export default function Contact() {
               <button
                 type="submit"
                 disabled={status === 'sending' || status === 'success'}
-                className={`font-mono text-[12px] px-4 py-2 rounded font-medium transition-colors duration-150 ${btnColor}`}
+                className={`font-mono text-[11px] px-4 py-3 md:py-2.5 rounded font-medium transition-colors duration-150 w-full ${btnColor}`}
               >
                 {BTN_LABEL[status]}
               </button>

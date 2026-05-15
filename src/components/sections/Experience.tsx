@@ -9,7 +9,7 @@ export default function Experience() {
   const isInView = useInView(ref, { once: true, amount: 0.1 })
 
   return (
-    <section className="py-[42px] px-5 md:px-[38px]">
+    <section className="grid-bg py-8 md:py-[42px] px-5 md:px-[38px]">
       <SectionHeader command="$ git log --stat --oneline" />
       <motion.div
         ref={ref}
@@ -19,7 +19,7 @@ export default function Experience() {
         className="flex flex-col gap-0"
       >
         {EXPERIENCE.map((entry, i) => (
-          <div key={entry.hash} className="grid gap-4 relative grid-cols-1 md:grid-cols-[150px_1fr]">
+          <div key={entry.hash} className="grid gap-2 md:gap-4 relative grid-cols-1 md:grid-cols-[150px_1fr] min-w-0">
             {/* Vertical connector line — desktop only */}
             {i < EXPERIENCE.length - 1 && (
               <div
@@ -29,23 +29,23 @@ export default function Experience() {
             )}
 
             {/* Left — commit meta */}
-            <div className="pt-1 md:pr-4 md:text-right relative z-10 flex md:flex-col gap-2 md:gap-0">
-              <div className="font-mono text-[11px]" style={{ color: '#f78c6c' }}>{entry.hash}</div>
-              <div className="font-mono text-[10px] text-green leading-4">{entry.branch}</div>
+            <div className="pt-1 md:pr-4 md:text-right relative z-10 flex md:flex-col gap-2 md:gap-0 min-w-0">
+              <div className="font-mono text-[11px] shrink-0" style={{ color: '#f78c6c' }}>{entry.hash}</div>
+              <div className="font-mono text-[10px] text-green leading-4 wrap-anywhere">{entry.branch}</div>
               {entry.remote && (
-                <div className="font-mono text-[9px] text-[var(--dm)]">{entry.remote}</div>
+                <div className="font-mono text-[9px] text-[var(--dm)] hidden md:block wrap-anywhere">{entry.remote}</div>
               )}
               {/* Dot — desktop only */}
               <div className="hidden md:block absolute right-[-5px] top-[6px] w-[9px] h-[9px] rounded-full bg-green border-2 border-bg" />
             </div>
 
             {/* Right — commit body */}
-            <div className="bg-bg-card border border-bg-border rounded-lg p-4 mb-6">
+            <div className="bg-bg-card border border-bg-border rounded-lg p-4 mb-6 min-w-0 max-w-full">
               <div className="font-mono text-[9px] text-[var(--dm)] uppercase tracking-wider mb-1">{entry.period}</div>
-              <div className="text-[13px] font-medium text-[var(--tx)] mb-0.5">{entry.role}</div>
-              <div className="font-mono text-[11px] text-green-bright mb-2">{entry.company}</div>
-              <p className="text-[12px] text-[var(--mu)] leading-5 mb-3">{entry.desc}</p>
-              <div className="flex flex-wrap gap-1.5 mb-3">
+              <div className="text-[13px] font-medium text-[var(--tx)] mb-0.5 wrap-anywhere">{entry.role}</div>
+              <div className="font-mono text-[11px] text-green-bright mb-2 wrap-anywhere">{entry.company}</div>
+              <p className="text-[12px] text-[var(--mu)] leading-5 mb-3 wrap-anywhere">{entry.desc}</p>
+              <div className="flex flex-wrap gap-1.5 mb-3 max-w-full">
                 {entry.tags.map((tag) => (
                   <span
                     key={tag}
@@ -56,7 +56,7 @@ export default function Experience() {
                   </span>
                 ))}
               </div>
-              <div className="font-mono text-[10px] flex gap-3" style={{ color: 'var(--dm)' }}>
+              <div className="font-mono text-[10px] flex flex-wrap gap-3 md:gap-4 pt-2 border-t border-bg-border" style={{ color: 'var(--dm)' }}>
                 <span>files changed</span>
                 <span className="text-green">+{entry.insertions}</span>
                 <span style={{ color: '#f07178' }}>-{entry.deletions}</span>
@@ -66,9 +66,9 @@ export default function Experience() {
         ))}
 
         {/* Initial commit */}
-        <div className="font-mono text-[11px] flex gap-3 items-center pt-2 px-2">
+        <div className="font-mono text-[11px] flex flex-wrap gap-3 items-center pt-2 px-2 max-w-full">
           <span style={{ color: '#f78c6c' }}>{INITIAL_COMMIT.hash}</span>
-          <span className="text-[var(--mu)]">{INITIAL_COMMIT.msg}</span>
+          <span className="text-[var(--mu)] wrap-anywhere">{INITIAL_COMMIT.msg}</span>
           <span className="ml-auto text-[var(--dm)]">{INITIAL_COMMIT.year}</span>
         </div>
       </motion.div>

@@ -49,9 +49,10 @@ export default function Sidebar() {
         className={`
           fixed left-0 top-0 h-screen flex flex-col z-[65] border-r border-bg-border
           transition-transform duration-300 ease-in-out
+          w-[min(240px,80vw)] md:w-[168px]
           ${open ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
         `}
-        style={{ width: '168px', background: '#050a06' }}
+        style={{ background: '#050a06' }}
       >
         {/* Header */}
         <div className="p-4 border-b border-bg-border">
