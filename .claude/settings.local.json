@@ -22,7 +22,8 @@
       "Bash(Select-Object -ExpandProperty weeks)",
       "Bash(Measure-Object)",
       "Bash(Select-Object -ExpandProperty Count)",
-      "PowerShell(Start-Sleep -Seconds 3; Invoke-WebRequest -Uri \"http://localhost:3000/api/contributions\" -UseBasicParsing | Select-Object -ExpandProperty Content | ConvertFrom-Json | Select-Object -ExpandProperty weeks | Measure-Object | Select-Object -ExpandProperty Count)"
+      "PowerShell(Start-Sleep -Seconds 3; Invoke-WebRequest -Uri \"http://localhost:3000/api/contributions\" -UseBasicParsing | Select-Object -ExpandProperty Content | ConvertFrom-Json | Select-Object -ExpandProperty weeks | Measure-Object | Select-Object -ExpandProperty Count)",
+      "PowerShell(Invoke-WebRequest -Uri \"http://localhost:3000\" -UseBasicParsing | Select-Object -ExpandProperty StatusCode)"
     ]
   }
 }
