@@ -5,22 +5,19 @@ import { OWNER } from '@/data/content'
 import { sendEmail } from '@/lib/email'
 import SectionHeader from '@/components/ui/SectionHeader'
 import Cursor from '@/components/ui/Cursor'
+import { useLang } from '@/contexts/LangContext'
+import { T } from '@/data/translations'
 
 type Status = 'idle' | 'sending' | 'success' | 'error'
 
 const INPUT_CLASS =
   'w-full min-w-0 bg-[#030808] border border-bg-border rounded px-3 py-2 font-mono text-[12px] text-[var(--tx)] outline-none focus:border-green-dark transition-colors duration-150'
 
-const BTN_LABEL: Record<Status, string> = {
-  idle:    '▶ SendMessage()',
-  sending: '▶ Sending...',
-  success: '✓ Message sent — I\'ll reply within 24h',
-  error:   '✗ Failed — try contacting me directly',
-}
-
 export default function Contact() {
-  const ref    = useRef(null)
+  const ref      = useRef(null)
   const isInView = useInView(ref, { once: true, amount: 0.1 })
+  const { lang } = useLang()
+  const t        = T[lang].contact
 
   const [status,  setStatus]  = useState<Status>('idle')
   const [name,    setName]    = useState('')
@@ -81,7 +78,7 @@ export default function Contact() {
             ))}
             <span className="j-bkt">{'}'}</span>
             <br />
-            <span className="j-cmt">{'// Waiting for connection...'}</span>{' '}
+            <span className="j-cmt">{t.waitingConn}</span>{' '}
             <Cursor />
           </div>
         </div>
@@ -95,14 +92,14 @@ export default function Contact() {
           <div className="p-4" style={{ background: '#030808' }}>
             <form onSubmit={handleSubmit} className="flex flex-col gap-3">
               <p className="font-mono text-[10px]" style={{ color: 'var(--dm)' }}>
-                {'// compose a new message'}
+                {t.compose}
               </p>
               <div className="flex flex-col gap-1">
-                <label className="font-mono text-[10px] text-[var(--dm)]">string Name</label>
+                <label className="font-mono text-[10px] text-[var(--dm)]">{t.labelName}</label>
                 <input
                   type="text"
                   required
-                  placeholder="your name"
+                  placeholder={t.placeholderName}
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   disabled={status === 'sending' || status === 'success'}
@@ -110,11 +107,11 @@ export default function Contact() {
                 />
               </div>
               <div className="flex flex-col gap-1">
-                <label className="font-mono text-[10px] text-[var(--dm)]">string Email</label>
+                <label className="font-mono text-[10px] text-[var(--dm)]">{t.labelEmail}</label>
                 <input
                   type="email"
                   required
-                  placeholder="your@email.com"
+                  placeholder={t.placeholderEmail}
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   disabled={status === 'sending' || status === 'success'}
@@ -122,11 +119,11 @@ export default function Contact() {
                 />
               </div>
               <div className="flex flex-col gap-1">
-                <label className="font-mono text-[10px] text-[var(--dm)]">string Message</label>
+                <label className="font-mono text-[10px] text-[var(--dm)]">{t.labelMessage}</label>
                 <textarea
                   required
                   rows={4}
-                  placeholder="your message..."
+                  placeholder={t.placeholderMessage}
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
                   disabled={status === 'sending' || status === 'success'}
@@ -134,14 +131,14 @@ export default function Contact() {
                 />
               </div>
               <p className="font-mono text-[10px]" style={{ color: 'var(--dm)' }}>
-                {'// response within 24h'}
+                {t.responseNote}
               </p>
               <button
                 type="submit"
                 disabled={status === 'sending' || status === 'success'}
                 className={`font-mono text-[11px] px-4 py-3 md:py-2.5 rounded font-medium transition-colors duration-150 w-full ${btnColor}`}
               >
-                {BTN_LABEL[status]}
+                {t.btns[status]}
               </button>
               {status === 'error' && (
                 <button
@@ -149,7 +146,7 @@ export default function Contact() {
                   onClick={() => setStatus('idle')}
                   className="font-mono text-[10px] text-[var(--dm)] hover:text-[var(--mu)] transition-colors"
                 >
-                  try again
+                  {t.tryAgain}
                 </button>
               )}
             </form>

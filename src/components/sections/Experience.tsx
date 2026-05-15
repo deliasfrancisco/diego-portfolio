@@ -3,10 +3,14 @@ import { useRef } from 'react'
 import { motion, useInView } from 'framer-motion'
 import { EXPERIENCE, INITIAL_COMMIT } from '@/data/content'
 import SectionHeader from '@/components/ui/SectionHeader'
+import { useLang } from '@/contexts/LangContext'
+import { T } from '@/data/translations'
 
 export default function Experience() {
-  const ref = useRef(null)
+  const ref      = useRef(null)
   const isInView = useInView(ref, { once: true, amount: 0.1 })
+  const { lang } = useLang()
+  const t        = T[lang]
 
   return (
     <section className="grid-bg py-8 md:py-[42px] px-5 md:px-[38px]">
@@ -44,7 +48,7 @@ export default function Experience() {
               <div className="font-mono text-[9px] text-[var(--dm)] uppercase tracking-wider mb-1">{entry.period}</div>
               <div className="text-[13px] font-medium text-[var(--tx)] mb-0.5 wrap-anywhere">{entry.role}</div>
               <div className="font-mono text-[11px] text-green-bright mb-2 wrap-anywhere">{entry.company}</div>
-              <p className="text-[12px] text-[var(--mu)] leading-5 mb-3 wrap-anywhere">{entry.desc}</p>
+              <p className="text-[12px] text-[var(--mu)] leading-5 mb-3 wrap-anywhere">{lang === 'pt' ? entry.descPt : entry.desc}</p>
               <div className="flex flex-wrap gap-1.5 mb-3 max-w-full">
                 {entry.tags.map((tag) => (
                   <span
@@ -57,7 +61,7 @@ export default function Experience() {
                 ))}
               </div>
               <div className="font-mono text-[10px] flex flex-wrap gap-3 md:gap-4 pt-2 border-t border-bg-border" style={{ color: 'var(--dm)' }}>
-                <span>files changed</span>
+                <span>{t.experience.filesChanged}</span>
                 <span className="text-green">+{entry.insertions}</span>
                 <span style={{ color: '#f07178' }}>-{entry.deletions}</span>
               </div>

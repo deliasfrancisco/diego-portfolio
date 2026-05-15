@@ -4,6 +4,8 @@ import { useTypewriter } from '@/hooks/useTypewriter'
 import { OWNER, LOADED_MODULES, C_SHARP_SNIPPET } from '@/data/content'
 import Cursor from '@/components/ui/Cursor'
 import CodeEditor from '@/components/ui/CodeEditor'
+import { useLang } from '@/contexts/LangContext'
+import { T } from '@/data/translations'
 
 function scrollTo(id: string) {
   document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
@@ -66,7 +68,9 @@ function HighlightedSnippet({ code }: { code: string }) {
 }
 
 export default function Hero() {
-  const { displayText, isDone } = useTypewriter(`Hello, I'm ${OWNER.name}`, 55, 400)
+  const { lang }                = useLang()
+  const t                       = T[lang]
+  const { displayText, isDone } = useTypewriter(`${t.hero.greeting} ${OWNER.name}`, 55, 400)
 
   return (
     <div className="grid-bg min-h-screen flex items-center px-5 md:px-12 py-12 md:py-16">
@@ -101,9 +105,7 @@ export default function Hero() {
 
             {/* subtitle */}
             <p className="text-[13px] md:text-[15px] text-[var(--mu)] leading-relaxed max-w-[460px] wrap-anywhere">
-              Senior .NET Full-Stack Architect specializing in distributed systems,
-              enterprise refactoring, and scalable APIs. 7+ years building production
-              platforms across .NET, Angular, and SQL Server.
+              {t.hero.subtitle}
             </p>
 
             {/* loaded modules pills */}
@@ -129,7 +131,7 @@ export default function Hero() {
                 className="font-mono text-[12px] px-5 py-3 bg-green text-bg-deep rounded transition-colors hover:bg-green-bright flex items-center gap-2 cursor-pointer"
               >
                 <span>▶</span>
-                $ dotnet run portfolio
+                {t.hero.ctaPortfolio}
               </button>
               <button
                 onClick={() => scrollTo('contact')}
@@ -137,7 +139,7 @@ export default function Hero() {
                 onMouseEnter={e => (e.currentTarget.style.background = 'rgba(34,197,94,0.06)')}
                 onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
               >
-                send message →
+                {t.hero.ctaContact}
               </button>
             </div>
           </div>
@@ -158,13 +160,13 @@ export default function Hero() {
                 onClick={() => scrollTo('projects')}
                 className="flex-1 font-mono text-[11px] px-4 py-3 bg-green text-bg-deep rounded hover:bg-green-bright transition-colors cursor-pointer"
               >
-                $ dotnet run portfolio
+                {t.hero.ctaPortfolio}
               </button>
               <button
                 onClick={() => scrollTo('contact')}
                 className="flex-1 font-mono text-[11px] px-4 py-3 bg-transparent text-green border border-[var(--gd)] rounded hover:border-green transition-all cursor-pointer"
               >
-                send message →
+                {t.hero.ctaContact}
               </button>
             </div>
           </div>

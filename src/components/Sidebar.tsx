@@ -2,17 +2,10 @@
 import { useState } from 'react'
 import { useActiveSection } from '@/hooks/useActiveSection'
 import { OWNER } from '@/data/content'
+import { useLang } from '@/contexts/LangContext'
+import { T } from '@/data/translations'
 
-const NAV = [
-  { id: 'hero',       label: 'Home'       },
-  { id: 'about',      label: 'About'      },
-  { id: 'skills',     label: 'Skills'     },
-  { id: 'experience', label: 'Experience' },
-  { id: 'projects',   label: 'Projects'   },
-  { id: 'contact',    label: 'Contact'    },
-]
-
-const SECTION_IDS = NAV.map((n) => n.id)
+const NAV_IDS = ['hero', 'about', 'skills', 'experience', 'projects', 'contact'] as const
 
 function scrollTo(id: string, close?: () => void) {
   document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
@@ -20,8 +13,19 @@ function scrollTo(id: string, close?: () => void) {
 }
 
 export default function Sidebar() {
-  const activeId       = useActiveSection(SECTION_IDS)
+  const activeId        = useActiveSection([...NAV_IDS])
   const [open, setOpen] = useState(false)
+  const { lang }        = useLang()
+  const t               = T[lang]
+
+  const NAV = [
+    { id: 'hero',       label: t.nav.home       },
+    { id: 'about',      label: t.nav.about      },
+    { id: 'skills',     label: t.nav.skills     },
+    { id: 'experience', label: t.nav.experience },
+    { id: 'projects',   label: t.nav.projects   },
+    { id: 'contact',    label: t.nav.contact    },
+  ]
 
   return (
     <>
@@ -89,7 +93,7 @@ export default function Sidebar() {
 
         {/* Footer */}
         <div className="p-4 border-t border-bg-border">
-          <div className="font-mono text-[9px] text-[var(--dm)] mb-1">{'// availability'}</div>
+          <div className="font-mono text-[9px] text-[var(--dm)] mb-1">{t.nav.availability}</div>
           <div className="font-mono text-[10px] text-green">OPEN_TO_FREELANCE</div>
           <div className="font-mono text-[9px] text-[var(--mu)] mt-1">
             upwork: <span className="text-green">●</span> active
