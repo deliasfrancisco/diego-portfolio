@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(Get-ChildItem -Path \"F:\\\\8_Projetos\\\\diego-portfolio\\\\src\" -Recurse -File)",
+      "Bash(Select-Object -ExpandProperty FullName)",
+      "Bash(npm install *)",
+      "Bash(npm run *)",
+      "Bash(node *)",
+      "Read(//f/8_Projetos/**)",
+      "Bash(git -C \"F:\\\\8_Projetos\" ls-files diego-portfolio/)",
+      "Bash(git -C \"F:\\\\8_Projetos\\\\diego-portfolio\" init)",
+      "Bash(git -C \"F:\\\\8_Projetos\\\\diego-portfolio\" config user.name \"Diego Francisco\")",
+      "Bash(git -C \"F:\\\\8_Projetos\\\\diego-portfolio\" config user.email \"diego.francisco.dev@gmail.com\")",
+      "Bash(git -C \"F:\\\\8_Projetos\\\\diego-portfolio\" status --short)"
+    ]
+  }
+}
