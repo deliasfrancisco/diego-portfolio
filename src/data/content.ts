@@ -47,7 +47,7 @@ export const OWNER = {
   mba:       'PUC Minas — Distributed Software Architecture',
   btech:     'FATEC — ADS',
   yearsXp:   7,
-  kernel:    'ARCH.KERNEL :: v7.0.0',
+  // kernel:    'ARCH.KERNEL :: v7.0.0',
 }
 
 export const EXPERIENCE = [

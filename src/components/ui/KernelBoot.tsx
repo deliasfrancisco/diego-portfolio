@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 
 const LINES = [
-  { text: 'ARCH.KERNEL :: v7.0.0',                type: 'title' },
+  // { text: 'ARCH.KERNEL :: v7.0.0',                type: 'title' },
   { text: '> Initializing .NET runtime...     [OK]', type: 'ok'    },
   { text: '> Mounting Angular modules...      [OK]', type: 'ok'    },
   { text: '> Connecting to SQL Server...      [OK]', type: 'ok'    },
