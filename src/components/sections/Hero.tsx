@@ -1,7 +1,7 @@
 'use client'
 
 import { useChainedTypewriter } from '@/hooks/useChainedTypewriter'
-import { OWNER, LOADED_MODULES, C_SHARP_SNIPPET } from '@/data/content'
+import { OWNER, C_SHARP_SNIPPET } from '@/data/content'
 import Cursor from '@/components/ui/Cursor'
 import CodeEditor from '@/components/ui/CodeEditor'
 import { useLang } from '@/contexts/LangContext'
@@ -77,8 +77,8 @@ export default function Hero() {
       <div className="w-full max-w-[1280px] mx-auto min-w-0">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center">
 
-          {/* TEXT CONTENT — order 2 on mobile, order 1 on desktop */}
-          <div className="order-2 lg:order-1 flex flex-col gap-4 md:gap-5 min-w-0 w-full">
+          {/* TEXT CONTENT — order 1 on mobile, order 1 on desktop */}
+          <div className="order-1 lg:order-1 flex flex-col gap-4 md:gap-5 min-w-0 w-full">
             {/* kernel badge */}
             <div className="min-w-0">
               <div className="kernel-badge">
@@ -110,23 +110,8 @@ export default function Hero() {
               {t.hero.subtitle}
             </p>
 
-            {/* loaded modules pills */}
-            <div className="flex flex-wrap items-center gap-2 mt-2 max-w-full">
-              <span className="font-mono text-[9px] text-[var(--dm)] tracking-wider w-full md:w-auto mb-1 md:mb-0">
-                LOADED_MODULES:
-              </span>
-              {LOADED_MODULES.map(mod => (
-                <span
-                  key={mod}
-                  className="font-mono text-[9px] px-2 py-1 border border-[var(--gd)] rounded text-green-bright"
-                  style={{ background: 'rgba(34,197,94,0.04)' }}
-                >
-                  {mod}
-                </span>
-              ))}
-            </div>
 
-            {/* CTAs — desktop only */}
+{/* CTAs — desktop only */}
             <div className="hidden lg:flex flex-wrap gap-3 mt-4">
               <button
                 onClick={() => scrollTo('projects')}
@@ -147,7 +132,7 @@ export default function Hero() {
           </div>
 
           {/* EDITOR + MOBILE CTAs — order 1 on mobile, order 2 on desktop */}
-          <div className="order-1 lg:order-2 flex flex-col gap-4 min-w-0 w-full">
+          <div className="order-2 lg:order-2 flex flex-col gap-4 min-w-0 w-full">
             <CodeEditor
               filename="Diego.cs"
               runLabel="▶ Run Contact.exe"

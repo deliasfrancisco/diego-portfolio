@@ -26,19 +26,19 @@ export default function Home() {
         <SectionReveal>
           <section id="hero"><Hero /></section>
         </SectionReveal>
-        <SectionReveal className="border-t border-bg-border">
+        <SectionReveal>
           <section id="about"><About /></section>
         </SectionReveal>
-        <SectionReveal className="border-t border-bg-border">
+        <SectionReveal>
           <section id="skills"><Skills /></section>
         </SectionReveal>
-        <SectionReveal className="border-t border-bg-border">
+        <SectionReveal>
           <section id="experience"><Experience /></section>
         </SectionReveal>
-        <SectionReveal className="border-t border-bg-border">
+        <SectionReveal>
           <section id="projects"><Projects /></section>
         </SectionReveal>
-        <SectionReveal className="border-t border-bg-border">
+        <SectionReveal>
           <section id="contact"><Contact /></section>
         </SectionReveal>
         <Footer />
