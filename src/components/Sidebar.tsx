@@ -1,5 +1,7 @@
 'use client'
 import { useState } from 'react'
+import Image from 'next/image'
+import profile from '@/assets/img/profile_1.jpg'
 import { useActiveSection } from '@/hooks/useActiveSection'
 import { OWNER } from '@/data/content'
 import { useLang } from '@/contexts/LangContext'
@@ -60,6 +62,18 @@ export default function Sidebar() {
       >
         {/* Header */}
         <div className="p-4 border-b border-bg-border">
+          <div className="flex justify-center mb-3">
+            <div className="rounded-full border-2 border-green p-[2px]">
+              <Image
+                src={profile}
+                alt={OWNER.name}
+                width={64}
+                height={64}
+                className="rounded-full object-cover w-16 h-16"
+                priority
+              />
+            </div>
+          </div>
           <div className="font-mono text-[10px] text-[var(--mu)] mb-1">{OWNER.name}</div>
           <div className="font-mono text-[11px] text-green font-medium">:: v7.0.0 LIVE</div>
           <div className="flex items-center gap-2 mt-2">
