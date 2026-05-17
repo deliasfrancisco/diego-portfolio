@@ -23,7 +23,7 @@ export default function Home() {
       <LangToggle />
       <Sidebar />
       <main className="flex-1 ml-0 md:ml-[168px]">
-        <SectionReveal>
+        <SectionReveal delay={0.4}>
           <section id="hero"><Hero /></section>
         </SectionReveal>
         <SectionReveal>

@@ -75,12 +75,12 @@ export default function Sidebar() {
               />
             </div>
           </div>
-          <div className="font-mono text-[10px] text-[var(--mu)] mb-1">{OWNER.name}</div>
-          <div className="font-mono text-[11px] text-green font-medium">:: v7.0.0 LIVE</div>
+          <div className="font-mono text-[20px] text-[var(--mu)] mb-1">{OWNER.name}</div>
+          {/* <div className="font-mono text-[11px] text-green font-medium">:: v7.0.0 LIVE</div>
           <div className="flex items-center gap-2 mt-2">
             <span className="w-2 h-2 rounded-full bg-green animate-pulsar" />
             <span className="font-mono text-[9px] text-[var(--dm)] uppercase tracking-wider">Deployed</span>
-          </div>
+          </div> */}
         </div>
 
         {/* Nav */}
