@@ -2,6 +2,7 @@
 import { useState } from 'react'
 import Image from 'next/image'
 import profile from '@/assets/img/profile_1.jpg'
+import { FaLinkedinIn, FaGithub, FaEnvelope } from 'react-icons/fa'
 import { useActiveSection } from '@/hooks/useActiveSection'
 import { OWNER } from '@/data/content'
 import { useLang } from '@/contexts/LangContext'
@@ -111,6 +112,34 @@ export default function Sidebar() {
           <div className="font-mono text-[10px] text-green">OPEN_TO_FREELANCE</div>
           <div className="font-mono text-[9px] text-[var(--mu)] mt-1">
             upwork: <span className="text-green">●</span> active
+          </div>
+          <div className="flex items-center gap-3 mt-3 pt-3 border-t border-bg-border">
+            <a
+              href={OWNER.linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="LinkedIn"
+              className="text-[var(--dm)] hover:text-green transition-colors duration-150"
+            >
+              <FaLinkedinIn size={14} />
+            </a>
+            <a
+              href={OWNER.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="GitHub"
+              className="text-[var(--dm)] hover:text-green transition-colors duration-150"
+            >
+              <FaGithub size={14} />
+            </a>
+            <a
+              href={`mailto:${OWNER.emailSocial}`}
+              aria-label={OWNER.emailSocial}
+              className="text-[var(--dm)] hover:text-green transition-colors duration-150 font-mono text-[9px] flex items-center gap-1.5"
+            >
+              <FaEnvelope size={14} />
+              <span className="hidden md:inline truncate">{OWNER.emailSocial}</span>
+            </a>
           </div>
         </div>
       </aside>

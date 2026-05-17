@@ -1,3 +1,5 @@
+import CursorGlow from '@/components/ui/CursorGlow'
+import WhatsAppButton from '@/components/ui/WhatsAppButton'
 import Sidebar from '@/components/Sidebar'
 import Hero from '@/components/sections/Hero'
 import About from '@/components/sections/About'
@@ -14,6 +16,8 @@ import { SectionReveal } from '@/components/ui/SectionReveal'
 export default function Home() {
   return (
     <div className="flex min-h-screen bg-bg">
+      <CursorGlow />
+      <WhatsAppButton />
       <KernelBoot />
       <KeyboardNav />
       <LangToggle />

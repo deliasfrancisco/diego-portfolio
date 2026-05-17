@@ -17,10 +17,12 @@ src/app/
 
 src/components/
   Sidebar.tsx       fixed nav 168px; mobile: hamburger z-[70] md:hidden; aside w-[min(240px,80vw)] md:w-[168px]; CSS translate slide
+                    header: profile photo (src/assets/img/profile_1.jpg) via next/image; rounded-full border-2 border-green p-[2px]
   KeyboardNav.tsx   keys 1-6 → scroll to sections
 
   sections/
     Hero.tsx        2-col lg:grid-cols-2; mobile order: editor(order-1) → text(order-2); kernel-badge; grid-bg
+                    h1: greeting typed on line 1; OWNER.name on line 2 in text-green-bright; cursor after name once typing done
     About.tsx       sys-card + TerminalWindow + stats + GitHubHeatmap; grid-bg
     Skills.tsx      3D sphere; isMobile state → radius 2.6/3.5 camera z12/9 fov60/50; dynamic(SkillsCanvas, ssr:false)
     SkillsCanvas.tsx Three.js Canvas; RotatingGroup useFrame; OrbitControls; Html distanceFactor=8
@@ -35,6 +37,9 @@ src/components/
     LangToggle.tsx  fixed top-4 right-[52px] md:right-4 z-[60]; toggles EN↔PT; shows opposite lang label
     Footer.tsx      client component (needs useLang); page.tsx uses this instead of inline footer
     KernelBoot.tsx  sessionStorage guard; z-[200]
+    CursorGlow.tsx  custom cursor + bg glow; pointer: fine only; two refs updated via mousemove (no state/re-renders)
+                    circle: 16px border-only ring (1.5px solid #22c55e); z-9999; offset top/left -8px
+                    glow: 360px radial-gradient rgba(34,197,94,0.07); z-1; mounted in page.tsx
     SectionHeader / SectionReveal / Cursor
 
   Providers.tsx     'use client' wrapper — wraps layout.tsx body with LangProvider; keeps layout.tsx as server component
@@ -66,6 +71,8 @@ src/app/
 Syntax classes: `cs-kw cs-ty cs-pr cs-st cs-cm cs-nm cs-op` (C#) · `j-key j-val j-bkt j-cmt` (JSON)
 
 CSS utilities: `.grid-bg` (32px green grid texture; add to all section wrappers) · `.kernel-badge` (bracketed pill + pulsing dot) · `.wrap-anywhere` (overflow-wrap:anywhere word-break:break-word) · `.shrink-children > *` (min-width:0 max-width:100%)
+
+`globals.css` also has `@media (pointer: fine) { *, *::before, *::after { cursor: none !important } }` — native cursor hidden on desktop; `CursorGlow.tsx` renders the custom circle cursor instead.
 
 ## Content (`src/data/content.ts`)
 ```

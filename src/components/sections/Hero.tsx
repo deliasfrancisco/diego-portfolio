@@ -1,6 +1,6 @@
 'use client'
 
-import { useTypewriter } from '@/hooks/useTypewriter'
+import { useChainedTypewriter } from '@/hooks/useChainedTypewriter'
 import { OWNER, LOADED_MODULES, C_SHARP_SNIPPET } from '@/data/content'
 import Cursor from '@/components/ui/Cursor'
 import CodeEditor from '@/components/ui/CodeEditor'
@@ -70,7 +70,7 @@ function HighlightedSnippet({ code }: { code: string }) {
 export default function Hero() {
   const { lang }                = useLang()
   const t                       = T[lang]
-  const { displayText, isDone } = useTypewriter(`${t.hero.greeting} ${OWNER.name}`, 55, 400)
+  const { firstText, secondText, isDone } = useChainedTypewriter(t.hero.greeting, OWNER.name, 55, 400)
 
   return (
     <div className="grid-bg min-h-screen flex items-center px-5 md:px-12 py-12 md:py-16">
@@ -93,9 +93,11 @@ export default function Hero() {
             </div>
 
             {/* headline */}
-            <h1 className="text-[26px] sm:text-[32px] md:text-[42px] lg:text-[56px] font-medium leading-[1.1] text-[var(--tx)] min-h-[32px] font-sans wrap-anywhere">
-              {displayText}
-              {isDone && <Cursor />}
+            <h1 className="text-[26px] sm:text-[32px] md:text-[42px] lg:text-[56px] font-medium leading-[1.1] text-[var(--tx)] font-sans wrap-anywhere">
+              <span className="block">{firstText}</span>
+              <span className="block text-green-bright">
+                {secondText}{isDone && <Cursor />}
+              </span>
             </h1>
 
             {/* role tag */}
