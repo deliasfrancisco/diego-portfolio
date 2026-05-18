@@ -3,20 +3,22 @@ import { useRef } from 'react'
 import { motion, useInView } from 'framer-motion'
 import { PROJECTS } from '@/data/content'
 import SectionHeader from '@/components/ui/SectionHeader'
+import { useLang } from '@/contexts/LangContext'
 
 export default function Projects() {
-  const ref = useRef(null)
+  const ref      = useRef(null)
   const isInView = useInView(ref, { once: true, amount: 0.1 })
+  const { lang } = useLang()
 
   return (
-    <section className="py-[42px] px-5 md:px-[38px]">
+    <section className="grid-bg py-8 md:py-[42px] px-5 md:px-[38px]">
       <SectionHeader command="$ ls -la ~/projects" />
       <motion.div
         ref={ref}
         initial={{ opacity: 0, y: 16 }}
         animate={isInView ? { opacity: 1, y: 0 } : {}}
         transition={{ duration: 0.45, ease: 'easeOut' }}
-        className="grid gap-3 grid-cols-1 sm:grid-cols-2 lg:grid-cols-[repeat(auto-fit,minmax(210px,1fr))]"
+        className="grid gap-3 grid-cols-1 md:grid-cols-2 lg:grid-cols-[repeat(auto-fit,minmax(210px,1fr))]"
       >
         {PROJECTS.map((project) => (
           <div
@@ -37,7 +39,7 @@ export default function Projects() {
             </div>
 
             {/* Description */}
-            <p className="text-[12px] text-[var(--mu)] leading-5 flex-1">{project.desc}</p>
+            <p className="text-[12px] text-[var(--mu)] leading-5 flex-1">{lang === 'pt' ? project.descPt : project.desc}</p>
 
             {/* Tags */}
             <div className="flex flex-wrap gap-1">

@@ -1,158 +1,132 @@
 @AGENTS.md
 
-# Diego Francisco Portfolio — Project Reference
+# Diego Portfolio — Reference
 
 ## Stack
+Next.js 16.2.6 · React 19.2.4 · TypeScript ^5 · Tailwind v4 · Framer Motion ^12.38.0 · JetBrains Mono · @emailjs/browser · three + @react-three/fiber + @react-three/drei · react-icons
 
-| Layer      | Technology                     | Version  |
-|------------|-------------------------------|----------|
-| Framework  | Next.js (App Router)          | 16.2.6   |
-| Runtime    | React                         | 19.2.4   |
-| Language   | TypeScript                    | ^5       |
-| Styling    | Tailwind CSS v4 (PostCSS)     | ^4       |
-| Animation  | Framer Motion                 | ^12.38.0 |
-| Font       | JetBrains Mono (@fontsource)  | ^5       |
-| Email      | @emailjs/browser              | latest   |
+> Tailwind v4: no `tailwind.config.js` — tokens in `globals.css` `@theme {}`.
 
-> Tailwind v4 has no `tailwind.config.js`. All theme tokens live in `globals.css` under `@theme {}`.
-
----
-
-## Directory Structure
-
+## Files
 ```
-src/
-├── app/
-│   ├── globals.css          # Tailwind @theme + CSS vars + syntax highlighting classes
-│   ├── layout.tsx           # Root layout + full SEO metadata
-│   ├── loading.tsx          # App Router loading UI (terminal boot)
-│   ├── page.tsx             # Home — imports all sections, KernelBoot, KeyboardNav
-│   ├── robots.ts            # /robots.txt
-│   └── sitemap.ts           # /sitemap.xml
-│
-├── components/
-│   ├── KeyboardNav.tsx      # 'use client' — keys 1-6 scroll to sections
-│   ├── Sidebar.tsx          # 'use client' — fixed nav, mobile hamburger slide-in
-│   │
-│   ├── sections/            # One file per page section
-│   │   ├── Hero.tsx         # Typewriter headline, C# code editor, boot animation target
-│   │   ├── About.tsx        # System card + terminal + stats + GitHub heatmap
-│   │   ├── Skills.tsx       # Interactive mouse-parallax canvas, tooltips, pulse clicks
-│   │   ├── Experience.tsx   # Git-log timeline (commit meta + body cards)
-│   │   ├── Projects.tsx     # Card grid
-│   │   └── Contact.tsx      # JSON viewer + EmailJS form (4 status states)
-│   │
-│   └── ui/                  # Reusable primitives
-│       ├── CodeEditor.tsx   # IDE-style code viewer with run button
-│       ├── Cursor.tsx       # Blinking terminal cursor
-│       ├── GitHubHeatmap.tsx # 52×7 heatmap, seeded mock data, hover tooltip
-│       ├── KernelBoot.tsx   # Full-screen boot overlay, sessionStorage guard
-│       ├── SectionHeader.tsx # `command ──────` header bar
-│       ├── SectionReveal.tsx # Scroll-in left-border accent animation
-│       └── TerminalWindow.tsx # macOS-style terminal frame
-│
-├── data/
-│   └── content.ts           # ALL copy: OWNER, SKILLS, EXPERIENCE, PROJECTS, snippets
-│
-├── hooks/
-│   ├── useActiveSection.ts  # IntersectionObserver → active nav id
-│   └── useTypewriter.ts     # Character-by-character text reveal
-│
-├── lib/
-│   └── email.ts             # sendEmail() wrapper for @emailjs/browser
-│
-└── types/
-    └── index.ts             # ExperienceEntry, ProjectEntry interfaces
+src/app/
+  globals.css       @theme + CSS vars + syntax classes + mobile guardrails (.grid-bg .kernel-badge .wrap-anywhere)
+  layout.tsx        SEO metadata + Viewport export (prevents 980px phantom width)
+  page.tsx          all sections + KernelBoot + KeyboardNav; main ml-0 md:ml-[168px]
+  loading.tsx / robots.ts / sitemap.ts
+
+src/components/
+  Sidebar.tsx       fixed nav 168px; mobile: hamburger z-[70] md:hidden; aside w-[min(240px,80vw)] md:w-[168px]; CSS translate slide
+                    header: profile photo (src/assets/img/profile_1.jpg) via next/image; rounded-full border-2 border-green p-[2px]
+  KeyboardNav.tsx   keys 1-6 → scroll to sections
+
+  sections/
+    Hero.tsx        2-col lg:grid-cols-2; mobile order: editor(order-1) → text(order-2); kernel-badge; grid-bg
+                    h1: greeting typed on line 1; OWNER.name on line 2 in text-green-bright; cursor after name once typing done
+    About.tsx       sys-card + TerminalWindow + stats + GitHubHeatmap; grid-bg
+    Skills.tsx      3D sphere; isMobile state → radius 2.6/3.5 camera z12/9 fov60/50; dynamic(SkillsCanvas, ssr:false)
+    SkillsCanvas.tsx Three.js Canvas; RotatingGroup useFrame; OrbitControls; Html distanceFactor=8
+    Experience.tsx  git-log grid-cols-1 md:grid-cols-[150px_1fr]; grid-bg
+    Projects.tsx    grid-cols-1 md:grid-cols-2 lg:auto-fit; grid-bg
+    Contact.tsx     JSON viewer + EmailJS form 4 states; grid-bg
+
+  ui/
+    CodeEditor.tsx  overflow-x-auto body; w-max min-w-full inner; flex-wrap run bar
+    TerminalWindow.tsx  overflow-x-auto body
+    GitHubHeatmap.tsx   fetches /api/contributions (live); falls back to seeded mock; shows ● live badge; overflow-x-auto wrapper in About
+    LangToggle.tsx  fixed top-4 right-[52px] md:right-4 z-[60]; toggles EN↔PT; shows opposite lang label
+    Footer.tsx      client component (needs useLang); page.tsx uses this instead of inline footer
+    KernelBoot.tsx  sessionStorage guard; z-[200]
+    CursorGlow.tsx  custom cursor + bg glow; pointer: fine only; two refs updated via mousemove (no state/re-renders)
+                    circle: 16px border-only ring (1.5px solid #22c55e); z-9999; offset top/left -8px
+                    glow: 360px radial-gradient rgba(34,197,94,0.07); z-1; mounted in page.tsx
+    SectionHeader / SectionReveal / Cursor
+
+  Providers.tsx     'use client' wrapper — wraps layout.tsx body with LangProvider; keeps layout.tsx as server component
+
+src/contexts/
+  LangContext.tsx   Lang ('en'|'pt') state; persists to localStorage key 'lang'; useLang() hook
+
+src/data/
+  translations.ts   T[lang].nav / .hero / .about / .experience / .contact / .footer — all translatable strings EN+PT
+
+src/app/
+  api/contributions/route.ts  GET → GitHub GraphQL (GITHUB_PAT env); returns { weeks }; revalidate 1800s; no PAT → 500
 ```
 
----
+## Colors
+| var | class | hex | use |
+|-----|-------|-----|-----|
+| `--bg` | `bg-bg` | `#070c08` | page bg |
+| `--bg-card` | `bg-bg-card` | `#0c1410` | card bg |
+| `--bg-deep` | `bg-bg-deep` | `#050a06` | sidebar/boot |
+| `--bdr` | `border-bg-border` | `#1c2e1e` | border |
+| `--g` | `text-green` | `#22c55e` | accent |
+| `--gb` | `text-green-bright` | `#4ade80` | hover accent |
+| `--gd` | `text-green-dark` | `#166534` | dim/active border |
+| `--tx` | inline | `#e2e8f0` | body text |
+| `--mu` | inline | `#94a3b8` | muted |
+| `--dm` | inline | `#475569` | dim/comments |
 
-## Color System
+Syntax classes: `cs-kw cs-ty cs-pr cs-st cs-cm cs-nm cs-op` (C#) · `j-key j-val j-bkt j-cmt` (JSON)
 
-All colors are CSS custom properties set in `globals.css` and exposed as Tailwind tokens via `@theme`.
+CSS utilities: `.grid-bg` (32px green grid texture; add to all section wrappers) · `.kernel-badge` (bracketed pill + pulsing dot) · `.wrap-anywhere` (overflow-wrap:anywhere word-break:break-word) · `.shrink-children > *` (min-width:0 max-width:100%)
 
-| CSS var      | Tailwind class    | Hex       | Usage                        |
-|--------------|-------------------|-----------|------------------------------|
-| `--bg`       | `bg-bg`           | `#070c08` | Page background              |
-| `--bg-card`  | `bg-bg-card`      | `#0c1410` | Card / panel background      |
-| `--bg-deep`  | `bg-bg-deep`      | `#050a06` | Deepest bg (sidebar, boot)   |
-| `--bdr`      | `border-bg-border`| `#1c2e1e` | Default border               |
-| `--g`        | `text-green`      | `#22c55e` | Primary accent               |
-| `--gb`       | `text-green-bright`| `#4ade80`| Hover / highlight accent     |
-| `--gd`       | `text-green-dark` | `#166534` | Dim accent / border active   |
-| `--tx`       | `text-[var(--tx)]`| `#e2e8f0` | Body text                    |
-| `--mu`       | `text-[var(--mu)]`| `#94a3b8` | Muted text                   |
-| `--dm`       | `text-[var(--dm)]`| `#475569` | Dimmer / comments            |
+`globals.css` also has `@media (pointer: fine) { *, *::before, *::after { cursor: none !important } }` — native cursor hidden on desktop; `CursorGlow.tsx` renders the custom circle cursor instead.
 
-Syntax highlighting classes (defined in `globals.css`):
-`cs-kw` · `cs-ty` · `cs-pr` · `cs-st` · `cs-cm` · `cs-nm` · `cs-op` (C#)
-`j-key` · `j-val` · `j-bkt` · `j-cmt` (JSON)
-
----
-
-## Key Conventions
-
-**Client components** — any file using hooks, browser APIs, or Framer Motion must have `'use client'` as first line.
-
-**No hydration-unsafe code** — never call `Math.random()`, `Date.now()`, or access `window`/`sessionStorage` at module scope or in render. Use `useEffect` or `useState` lazy init for client-only values.
-
-**setState in effects** — ESLint rule `react-hooks/set-state-in-effect` flags direct setState in effect bodies. Wrap with `setTimeout(fn, 0)` to defer to a macrotask (satisfies the linter, keeps behavior correct).
-
-**Tailwind v4 syntax** — no `@apply` support in component CSS. All styling via className. Custom values inline with `text-[11px]`, `px-[38px]`, etc.
-
-**Responsive breakpoints** — mobile-first. Desktop sidebar offset via `md:ml-[168px]`. Sections use `px-5 md:px-[38px]`. Grids use `grid-cols-1 md:grid-cols-[...]`.
-
-**Comments in JSX** — use `{/* comment */}` for JSX comments, `{'// text'}` for literal `//` text nodes to avoid `react/jsx-no-comment-textnodes` lint error.
-
----
-
-## Content Data (`src/data/content.ts`)
-
-Single source of truth for all copy. Update here first; components read from it.
-
+## Content (`src/data/content.ts`)
 ```
-OWNER          — personal info (name, location, links, timezone)
-SKILLS         — string[] of 15 technology names
-EXPERIENCE     — array of git-log-style work entries
-INITIAL_COMMIT — first "commit" (graduation)
-PROJECTS       — array of repo-card data
-C_SHARP_SNIPPET — code shown in Hero editor
-LOADED_MODULES — ticker items in Hero
+OWNER          personal info
+SKILLS         Skill[] → { name, icon: IconType, color }
+               icons: react-icons/si (SiDotnet SiAngular SiTypescript SiRedis SiGithubactions SiIonic SiDocker)
+                      react-icons/di (DiMsqlServer DiDotnet)
+                      react-icons/tb (TbBrandCSharp TbBrandAzure TbBrandWindows)
+               ⚠ verify export names before importing (SiSharp exists, SiCsharp does NOT)
+EXPERIENCE     git-log entries; each has desc (EN) + descPt (PT)
+PROJECTS       repo cards; each has desc (EN) + descPt (PT)
+C_SHARP_SNIPPET Hero editor code
+LOADED_MODULES  Hero pills
 ```
 
----
+## i18n
+- `Lang = 'en' | 'pt'`; context in `src/contexts/LangContext.tsx`; persisted to `localStorage('lang')`
+- All strings in `src/data/translations.ts` as `T[lang].section.key`
+- `EXPERIENCE[n].descPt` and `PROJECTS[n].descPt` hold PT descriptions inline in content.ts
+- Components consume with: `const { lang } = useLang(); const t = T[lang]`
+- `LangToggle` positioned `right-[52px] md:right-4` — left of mobile hamburger (`right-4 z-[70]`)
+- Server layout preserved: `Providers.tsx` client wrapper in `layout.tsx`; `page.tsx` stays server
 
-## Environment Variables
+## Conventions
+- `'use client'` → any file with hooks / browser APIs / Framer Motion
+- No `Math.random()` / `Date.now()` / `window` at module scope — use `useEffect`
+- setState in effects: wrap with `setTimeout(fn, 0)` to satisfy linter
+- No `@apply` — all styling via className
+- Grid/flex children with overflow: `min-w-0 w-full`; long text: `wrap-anywhere`; code blocks: `overflow-x-auto` + `w-max min-w-full` inner
+- JSX comments: `{/* */}`; literal `//`: `{'// text'}`
+- Three.js: always `dynamic(..., { ssr: false })`; never import in SSR files
+- All sections: `grid-bg py-8 md:py-[42px] px-5 md:px-[38px]`
 
-Copy `.env.local.example` → `.env.local` and fill in values.
-
+## Env
 ```
 NEXT_PUBLIC_EMAILJS_SERVICE_ID=
 NEXT_PUBLIC_EMAILJS_TEMPLATE_ID=
 NEXT_PUBLIC_EMAILJS_PUBLIC_KEY=
+GITHUB_PAT=          # server-only; read:user scope; used by /api/contributions
 ```
-
-EmailJS keys come from https://emailjs.com → Email Services + Email Templates.
-
----
 
 ## Commands
-
 ```bash
-npm run dev    # Turbopack dev server at localhost:3000
-npm run build  # Production build (must pass before commit)
-npm run lint   # ESLint (must pass with 0 errors before commit)
-npm run start  # Serve production build
+npm run dev    # Turbopack localhost:3000
+npm run build  # must pass before commit
+npm run lint   # 0 errors before commit
 ```
 
----
+## Mobile
+- Sidebar: `-translate-x-full` hidden; hamburger `fixed top-4 right-4 z-[70] md:hidden`
+- Hero order: editor(1) → CTAs mobile(2) → text col(3)[badge→tag→h1→role→desc→modules]
+- Desktop CTAs: `hidden lg:flex` in text col; mobile CTAs: `flex lg:hidden` below editor
+- Skills mobile: radius 2.6 · z=12 · fov=60 · icon 24px · canvas h-[320px]
+- Viewport export in layout.tsx prevents browser 980px phantom render
 
-## Boot Animation
-
-`KernelBoot` renders a full-screen overlay on first visit. Controlled by `sessionStorage.getItem('kernel-boot-played')`. Clear sessionStorage in DevTools to replay. The overlay has `z-[200]` — highest z-index in the project.
-
-## Mobile Layout
-
-Sidebar: hidden off-screen on `< md`, toggled via hamburger (top-right, `z-[70]`).
-Content: `ml-0 md:ml-[168px]` on main element.
-All sections: `px-5 md:px-[38px]`.
+## Boot
+`KernelBoot`: sessionStorage `'kernel-boot-played'`; z-[200]; clear in DevTools to replay.

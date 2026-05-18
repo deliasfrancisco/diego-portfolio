@@ -11,7 +11,19 @@
       "Bash(git -C \"F:\\\\8_Projetos\\\\diego-portfolio\" init)",
       "Bash(git -C \"F:\\\\8_Projetos\\\\diego-portfolio\" config user.name \"Diego Francisco\")",
       "Bash(git -C \"F:\\\\8_Projetos\\\\diego-portfolio\" config user.email \"diego.francisco.dev@gmail.com\")",
-      "Bash(git -C \"F:\\\\8_Projetos\\\\diego-portfolio\" status --short)"
+      "Bash(git -C \"F:\\\\8_Projetos\\\\diego-portfolio\" status --short)",
+      "Bash(git *)",
+      "Bash(curl -fsSL https://raw.githubusercontent.com/JuliusBrussee/caveman/main/install.sh)",
+      "Bash(bash -s -- --only openclaw)",
+      "Bash(Start-Sleep -Seconds 4)",
+      "Bash(Invoke-WebRequest -Uri \"http://localhost:3000/api/contributions\" -UseBasicParsing)",
+      "Bash(Select-Object -ExpandProperty Content)",
+      "Bash(ConvertFrom-Json)",
+      "Bash(Select-Object -ExpandProperty weeks)",
+      "Bash(Measure-Object)",
+      "Bash(Select-Object -ExpandProperty Count)",
+      "PowerShell(Start-Sleep -Seconds 3; Invoke-WebRequest -Uri \"http://localhost:3000/api/contributions\" -UseBasicParsing | Select-Object -ExpandProperty Content | ConvertFrom-Json | Select-Object -ExpandProperty weeks | Measure-Object | Select-Object -ExpandProperty Count)",
+      "PowerShell(Invoke-WebRequest -Uri \"http://localhost:3000\" -UseBasicParsing | Select-Object -ExpandProperty StatusCode)"
     ]
   }
 }

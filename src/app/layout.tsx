@@ -1,5 +1,13 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import './globals.css'
+import Providers from '@/components/Providers'
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+}
 
 export const metadata: Metadata = {
   title: 'Diego Francisco — Senior .NET Architect',
@@ -28,7 +36,7 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" style={{ background: '#070c08' }}>
-      <body className="flex flex-col min-h-screen">{children}</body>
+      <body className="flex flex-col min-h-screen"><Providers>{children}</Providers></body>
     </html>
   )
 }

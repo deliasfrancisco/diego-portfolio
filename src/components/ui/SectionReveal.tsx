@@ -5,9 +5,11 @@ import { motion, useInView } from 'framer-motion'
 export function SectionReveal({
   children,
   className,
+  delay = 0,
 }: {
   children: React.ReactNode
   className?: string
+  delay?: number
 }) {
   const ref    = useRef(null)
   const inView = useInView(ref, { once: true, amount: 0.05 })
@@ -19,9 +21,15 @@ export function SectionReveal({
         style={{ transformOrigin: 'top' }}
         initial={{ scaleY: 0 }}
         animate={inView ? { scaleY: 1 } : { scaleY: 0 }}
-        transition={{ duration: 0.6, ease: 'easeOut', delay: 0.15 }}
+        transition={{ duration: 0.55, ease: 'easeOut', delay: delay + 0.2 }}
       />
-      {children}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={inView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.5, ease: 'easeOut', delay }}
+      >
+        {children}
+      </motion.div>
     </div>
   )
 }

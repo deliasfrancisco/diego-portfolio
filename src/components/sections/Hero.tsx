@@ -1,9 +1,13 @@
 'use client'
 
-import { useTypewriter } from '@/hooks/useTypewriter'
-import { OWNER, LOADED_MODULES, C_SHARP_SNIPPET } from '@/data/content'
+import Image from 'next/image'
+import profile from '@/assets/img/profile_1.jpg'
+import { useChainedTypewriter } from '@/hooks/useChainedTypewriter'
+import { OWNER, C_SHARP_SNIPPET } from '@/data/content'
 import Cursor from '@/components/ui/Cursor'
 import CodeEditor from '@/components/ui/CodeEditor'
+import { useLang } from '@/contexts/LangContext'
+import { T } from '@/data/translations'
 
 function scrollTo(id: string) {
   document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
@@ -66,85 +70,75 @@ function HighlightedSnippet({ code }: { code: string }) {
 }
 
 export default function Hero() {
-  const { displayText, isDone } = useTypewriter(`Hello, I'm ${OWNER.name}`, 55, 400)
+  const { lang }                = useLang()
+  const t                       = T[lang]
+  const { firstText, secondText, isDone } = useChainedTypewriter(t.hero.greeting, OWNER.name, 55, 400)
 
   return (
-    <div className="grid-bg min-h-screen flex items-center px-5 md:px-[38px] lg:px-12 py-16">
-      <div className="w-full max-w-[1280px] mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+    <div className="grid-bg min-h-screen flex items-center px-5 md:px-12 py-12 md:py-16">
+      <div className="w-full max-w-[1280px] mx-auto min-w-0">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center">
 
-          {/* LEFT — text content */}
-          <div className="flex flex-col gap-5">
-            {/* kernel badge */}
-            <div>
-              <div className="kernel-badge">
-                <span className="dot" />
-                <span>{OWNER.kernel} LIVE</span>
-              </div>
-            </div>
-
+          {/* TEXT CONTENT — order 1 on mobile, order 1 on desktop */}
+          <div className="order-1 lg:order-1 flex flex-col gap-4 md:gap-5 min-w-0 w-full">
             {/* tag prefix */}
-            <div className="font-mono text-[10px] text-[var(--dm)] tracking-wider">
-              {'< Dev/>'}{'  <System.Init />  while(alive) { code(); }'}
+            <div className="font-mono text-[10px] text-[var(--dm)] tracking-wider wrap-anywhere">
+              {'< Dev/>  <System.Init />  while(alive) { code(); }'}
             </div>
 
             {/* headline */}
-            <h1 className="text-[36px] lg:text-[52px] font-medium leading-[1.05] text-[var(--tx)] min-h-[44px] font-sans">
-              {displayText}
-              {isDone && <Cursor />}
-            </h1>
+            <div className="flex items-center gap-4 min-w-0">
+              <div className="shrink-0 rounded-full border-2 border-green p-[2px]">
+                <Image
+                  src={profile}
+                  alt={OWNER.name}
+                  width={80}
+                  height={80}
+                  className="rounded-full object-cover w-14 h-14 md:w-16 md:h-16 lg:w-20 lg:h-20"
+                  priority
+                />
+              </div>
+              <h1 className="text-[26px] sm:text-[32px] md:text-[42px] lg:text-[56px] font-medium leading-[1.1] text-[var(--tx)] font-sans wrap-anywhere min-w-0">
+                <span className="block">{firstText}</span>
+                <span className="block text-green-bright">
+                  {secondText}{isDone && <Cursor />}
+                </span>
+              </h1>
+            </div>
 
             {/* role tag */}
-            <div className="font-mono text-xl text-green">
+            <div className="font-mono text-base md:text-xl text-green wrap-anywhere">
               {'<SoftwareArchitect />'}
             </div>
 
             {/* subtitle */}
-            <p className="text-[15px] text-[var(--mu)] leading-relaxed max-w-[460px]">
-              Senior .NET Full-Stack Architect specializing in distributed systems,
-              enterprise refactoring, and scalable APIs. 7+ years building production
-              platforms across .NET, Angular, and SQL Server.
+            <p className="text-[13px] md:text-[15px] text-[var(--mu)] leading-relaxed max-w-[460px] wrap-anywhere">
+              {t.hero.subtitle}
             </p>
 
-            {/* loaded modules pills */}
-            <div className="flex flex-wrap items-center gap-2 mt-2">
-              <span className="font-mono text-[9px] text-[var(--dm)] tracking-wider mr-2">
-                LOADED_MODULES:
-              </span>
-              {LOADED_MODULES.map(mod => (
-                <span
-                  key={mod}
-                  className="font-mono text-[9px] px-2 py-1 border border-[var(--gd)] rounded text-green-bright"
-                  style={{ background: 'rgba(34,197,94,0.04)' }}
-                >
-                  {mod}
-                </span>
-              ))}
-            </div>
 
-            {/* CTAs */}
-            <div className="flex flex-wrap gap-3 mt-4">
+{/* CTAs — desktop only */}
+            <div className="hidden lg:flex flex-wrap gap-3 mt-4">
               <button
                 onClick={() => scrollTo('projects')}
                 className="font-mono text-[12px] px-5 py-3 bg-green text-bg-deep rounded transition-colors hover:bg-green-bright flex items-center gap-2 cursor-pointer"
               >
                 <span>▶</span>
-                $ dotnet run portfolio
+                {t.hero.ctaPortfolio}
               </button>
               <button
                 onClick={() => scrollTo('contact')}
                 className="font-mono text-[12px] px-5 py-3 bg-transparent text-green border border-[var(--gd)] rounded transition-all hover:border-green cursor-pointer"
-                style={{ ['--tw-bg-opacity' as string]: undefined }}
                 onMouseEnter={e => (e.currentTarget.style.background = 'rgba(34,197,94,0.06)')}
                 onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
               >
-                send message →
+                {t.hero.ctaContact}
               </button>
             </div>
           </div>
 
-          {/* RIGHT — code editor */}
-          <div className="w-full">
+          {/* EDITOR + MOBILE CTAs — order 1 on mobile, order 2 on desktop */}
+          <div className="order-2 lg:order-2 flex flex-col gap-4 min-w-0 w-full">
             <CodeEditor
               filename="Diego.cs"
               runLabel="▶ Run Contact.exe"
@@ -152,6 +146,22 @@ export default function Hero() {
             >
               <HighlightedSnippet code={C_SHARP_SNIPPET} />
             </CodeEditor>
+
+            {/* CTAs below editor — mobile only */}
+            <div className="flex lg:hidden gap-3">
+              <button
+                onClick={() => scrollTo('projects')}
+                className="flex-1 font-mono text-[11px] px-4 py-3 bg-green text-bg-deep rounded hover:bg-green-bright transition-colors cursor-pointer"
+              >
+                {t.hero.ctaPortfolio}
+              </button>
+              <button
+                onClick={() => scrollTo('contact')}
+                className="flex-1 font-mono text-[11px] px-4 py-3 bg-transparent text-green border border-[var(--gd)] rounded hover:border-green transition-all cursor-pointer"
+              >
+                {t.hero.ctaContact}
+              </button>
+            </div>
           </div>
 
         </div>
