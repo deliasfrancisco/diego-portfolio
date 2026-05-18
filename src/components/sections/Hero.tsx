@@ -72,7 +72,7 @@ function HighlightedSnippet({ code }: { code: string }) {
 export default function Hero() {
   const { lang }                = useLang()
   const t                       = T[lang]
-  const { firstText, secondText, isDone } = useChainedTypewriter(t.hero.greeting, OWNER.name, 55, 400)
+  const { firstText, secondText } = useChainedTypewriter(t.hero.greeting, OWNER.name, 55, 400)
 
   return (
     <div className="grid-bg min-h-screen flex items-center px-5 md:px-12 py-12 md:py-16">
@@ -99,9 +99,11 @@ export default function Hero() {
                 />
               </div>
               <h1 className="text-[26px] sm:text-[32px] md:text-[42px] lg:text-[56px] font-medium leading-[1.1] text-[var(--tx)] font-sans wrap-anywhere min-w-0">
-                <span className="block">{firstText}</span>
+                <span className="block">
+                  {firstText}{firstText.length > 0 && secondText === '' && <Cursor />}
+                </span>
                 <span className="block text-green-bright">
-                  {secondText}{isDone && <Cursor />}
+                  {secondText}{secondText.length > 0 && <Cursor />}
                 </span>
               </h1>
             </div>

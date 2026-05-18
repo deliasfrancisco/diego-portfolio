@@ -85,20 +85,13 @@ export default function ScrollProgress() {
               <div
                 className={`
                   w-7 h-7 rounded-full border-2 flex items-center justify-center
-                  transition-all duration-200 bg-[var(--bg)]
-                  ${isActive
-                    ? 'border-[var(--g)] scale-110'
-                    : 'border-[var(--bdr)] hover:border-[var(--gd)] hover:scale-105'
-                  }
+                  transition-all duration-200 bg-[var(--bg)] border-[var(--g)]
+                  ${isActive ? 'scale-110' : 'hover:scale-105'}
                 `}
               >
                 <Icon
                   size={12}
-                  className={
-                    isActive
-                      ? 'text-[var(--g)]'
-                      : 'text-[var(--dm)] group-hover:text-[var(--gd)]'
-                  }
+                  className="text-[var(--g)]"
                 />
               </div>
 
