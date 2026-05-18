@@ -40,8 +40,7 @@ export default function KernelBoot() {
       {show && (
         <motion.div
           key="boot"
-          className="fixed inset-0 z-[200] flex items-center justify-center"
-          style={{ background: '#050a06' }}
+          className="fixed inset-0 z-[200] flex items-center justify-center bg-bg-deep"
           initial={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.5, ease: 'easeOut' }}

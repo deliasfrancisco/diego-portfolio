@@ -16,8 +16,7 @@ export default function TerminalWindow({ title, children, className = '' }: Term
         <span className="ml-2 font-mono text-[11px] text-[var(--mu)]">{title}</span>
       </div>
       <div
-        className="p-4 font-mono text-xs text-[var(--mu)] leading-relaxed overflow-x-auto"
-        style={{ background: '#030808' }}
+        className="p-4 font-mono text-xs text-[var(--mu)] leading-relaxed overflow-x-auto bg-editor"
       >
         {children}
       </div>

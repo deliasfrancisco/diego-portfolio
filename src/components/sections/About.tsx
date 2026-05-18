@@ -32,8 +32,7 @@ export default function About() {
               {/* Avatar */}
               <div className="flex flex-col items-center mb-5">
                 <div
-                  className="w-16 h-16 rounded-full flex items-center justify-center border-2 border-green font-mono text-xl font-bold text-green mb-2"
-                  style={{ background: 'rgba(34,197,94,0.08)' }}
+                  className="w-16 h-16 rounded-full flex items-center justify-center border-2 border-green font-mono text-xl font-bold text-green mb-2 bg-green-subtle"
                 >
                   {OWNER.initials}
                 </div>

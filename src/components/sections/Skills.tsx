@@ -46,9 +46,7 @@ export default function Skills() {
         />
 
         {/* hint — backdrop so text stays readable over rotating wireframe */}
-        <div className="absolute bottom-2 left-1/2 -translate-x-1/2 font-mono text-[10px] text-[var(--dm)] tracking-wider pointer-events-none whitespace-nowrap px-3 py-1 rounded"
-          style={{ background: 'rgba(7,12,8,0.6)' }}
-        >
+        <div className="absolute bottom-2 left-1/2 -translate-x-1/2 font-mono text-[10px] text-[var(--dm)] tracking-wider pointer-events-none whitespace-nowrap px-3 py-1 rounded bg-bg-dim">
           {'⟳ drag to rotate · hover to highlight'}
         </div>
       </div>

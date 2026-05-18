@@ -79,8 +79,8 @@ export default function ScrollProgress() {
               type="button"
               onClick={() => scrollTo(id)}
               aria-label={`Go to ${label}`}
-              className="absolute -translate-x-1/2 -translate-y-1/2 pointer-events-auto group focus:outline-none"
-              style={{ top: `${position}%`, left: '50%' }}
+              className="absolute left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-auto group focus:outline-none"
+              style={{ top: `${position}%` }}
             >
               <div
                 className={`

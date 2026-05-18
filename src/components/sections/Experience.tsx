@@ -27,14 +27,13 @@ export default function Experience() {
             {/* Vertical connector line — desktop only */}
             {i < EXPERIENCE.length - 1 && (
               <div
-                className="hidden md:block absolute left-[75px] top-6 w-px bg-bg-border"
-                style={{ height: 'calc(100% + 24px)' }}
+                className="hidden md:block absolute left-[75px] top-6 w-px bg-bg-border h-overflow-6"
               />
             )}
 
             {/* Left — commit meta */}
             <div className="pt-1 md:pr-4 md:text-right relative z-10 flex md:flex-col gap-2 md:gap-0 min-w-0">
-              <div className="font-mono text-[11px] shrink-0" style={{ color: '#f78c6c' }}>{entry.hash}</div>
+              <div className="font-mono text-[11px] shrink-0 text-hash">{entry.hash}</div>
               <div className="font-mono text-[10px] text-green leading-4 wrap-anywhere">{entry.branch}</div>
               {entry.remote && (
                 <div className="font-mono text-[9px] text-[var(--dm)] hidden md:block wrap-anywhere">{entry.remote}</div>
@@ -53,17 +52,16 @@ export default function Experience() {
                 {entry.tags.map((tag) => (
                   <span
                     key={tag}
-                    className="font-mono text-[10px] px-2 py-0.5 rounded border border-green-dim"
-                    style={{ color: 'var(--mu)' }}
+                    className="font-mono text-[10px] px-2 py-0.5 rounded border border-green-dim text-muted-var"
                   >
                     {tag}
                   </span>
                 ))}
               </div>
-              <div className="font-mono text-[10px] flex flex-wrap gap-3 md:gap-4 pt-2 border-t border-bg-border" style={{ color: 'var(--dm)' }}>
+              <div className="font-mono text-[10px] flex flex-wrap gap-3 md:gap-4 pt-2 border-t border-bg-border text-dim">
                 <span>{t.experience.filesChanged}</span>
                 <span className="text-green">+{entry.insertions}</span>
-                <span style={{ color: '#f07178' }}>-{entry.deletions}</span>
+                <span className="text-deletion">-{entry.deletions}</span>
               </div>
             </div>
           </div>
@@ -71,7 +69,7 @@ export default function Experience() {
 
         {/* Initial commit */}
         <div className="font-mono text-[11px] flex flex-wrap gap-3 items-center pt-2 px-2 max-w-full">
-          <span style={{ color: '#f78c6c' }}>{INITIAL_COMMIT.hash}</span>
+          <span className="text-hash">{INITIAL_COMMIT.hash}</span>
           <span className="text-[var(--mu)] wrap-anywhere">{INITIAL_COMMIT.msg}</span>
           <span className="ml-auto text-[var(--dm)]">{INITIAL_COMMIT.year}</span>
         </div>

@@ -70,7 +70,7 @@ export default function Contact() {
             <span className="w-2 h-2 rounded-full bg-green shrink-0" />
             <span className="font-mono text-[11px] text-[var(--mu)] wrap-anywhere">appsettings.contact.json</span>
           </div>
-          <div className="p-3 md:p-4 font-mono text-[11px] md:text-[12px] leading-6 overflow-x-auto" style={{ background: '#030808' }}>
+          <div className="p-3 md:p-4 font-mono text-[11px] md:text-[12px] leading-6 overflow-x-auto bg-editor">
             <span className="j-bkt">{'{'}</span>
             <br />
             {[
@@ -104,7 +104,7 @@ export default function Contact() {
             <span className="font-mono text-[11px] text-[var(--mu)]">connect.sh</span>
           </div>
 
-          <div className="flex flex-col flex-1 p-4 gap-3" style={{ background: '#030808' }}>
+          <div className="flex flex-col flex-1 p-4 gap-3 bg-editor">
             <p className="font-mono text-[10px] text-[var(--dm)]">{t.channels}</p>
 
             <div className="flex flex-col gap-2">
@@ -114,15 +114,12 @@ export default function Contact() {
                   href={href}
                   target={href.startsWith('mailto') ? undefined : '_blank'}
                   rel="noopener noreferrer"
-                  className="group flex items-center gap-3 px-4 py-3 rounded border border-bg-border transition-all duration-150 hover:border-green-dark"
-                  style={{ background: 'rgba(12,20,16,0.6)' }}
-                  onMouseEnter={e => (e.currentTarget.style.background = 'rgba(34,197,94,0.05)')}
-                  onMouseLeave={e => (e.currentTarget.style.background = 'rgba(12,20,16,0.6)')}
+                  className="channel-link group flex items-center gap-3 px-4 py-3 rounded border border-bg-border transition-all duration-150 hover:border-green-dark"
                 >
                   <Icon
                     size={16}
-                    style={{ color, flexShrink: 0 }}
-                    className="transition-transform duration-150 group-hover:scale-110"
+                    style={{ color }}
+                    className="shrink-0 transition-transform duration-150 group-hover:scale-110"
                   />
                   <span className="font-mono text-[10px] text-[var(--dm)] w-[72px] shrink-0 uppercase tracking-wider">
                     {label}

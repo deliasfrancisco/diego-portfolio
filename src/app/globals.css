@@ -1,5 +1,6 @@
 @import '@fontsource/jetbrains-mono/400.css';
 @import "tailwindcss";
+@import './styles.css';
 
 @theme {
   --color-bg: #070c08;

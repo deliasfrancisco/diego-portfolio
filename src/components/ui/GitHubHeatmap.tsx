@@ -104,10 +104,9 @@ export default function GitHubHeatmap() {
         {live && <span className="text-green">● live</span>}
       </div>
       <div
-        className="relative rounded-lg border border-bg-border p-4 overflow-x-auto"
-        style={{ background: '#0c1410' }}
+        className="relative rounded-lg border border-bg-border p-4 overflow-x-auto bg-bg-card"
       >
-        <div className="flex gap-[2px]" style={{ width: 'max-content' }}>
+        <div className="flex gap-[2px] w-max">
           {grid.map((week, w) => (
             <div key={w} className="flex flex-col gap-[2px]">
               {week.map((cell, d) => (
@@ -129,8 +128,8 @@ export default function GitHubHeatmap() {
 
         {tip && (
           <div
-            className="absolute z-10 pointer-events-none font-mono text-[10px] bg-bg-deep border border-bg-border rounded px-2 py-1 text-[var(--mu)] whitespace-nowrap"
-            style={{ left: tip.x, top: tip.y - 8, transform: 'translate(-50%, -100%)' }}
+            className="absolute z-10 pointer-events-none font-mono text-[10px] bg-bg-deep border border-bg-border rounded px-2 py-1 text-[var(--mu)] whitespace-nowrap tooltip-translate"
+            style={{ left: tip.x, top: tip.y - 8 }}
           >
             {fmt(tip.date)} · <span className="text-green">{tip.count} commit{tip.count !== 1 ? 's' : ''}</span>
           </div>

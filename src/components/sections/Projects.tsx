@@ -27,12 +27,11 @@ export default function Projects() {
           >
             {/* Header */}
             <div className="flex items-center justify-between">
-              <span className="font-mono text-[12px]" style={{ color: '#82aaff' }}>
+              <span className="font-mono text-[12px] text-lang-blue">
                 {project.name}
               </span>
               <span
-                className="font-mono text-[9px] px-2 py-0.5 rounded border border-bg-border"
-                style={{ color: 'var(--dm)' }}
+                className="font-mono text-[9px] px-2 py-0.5 rounded border border-bg-border text-dim"
               >
                 {project.badge}
               </span>
@@ -46,8 +45,7 @@ export default function Projects() {
               {project.tags.map((tag) => (
                 <span
                   key={tag}
-                  className="font-mono text-[9px] px-1.5 py-0.5 rounded"
-                  style={{ color: 'var(--dm)', background: 'rgba(255,255,255,0.03)' }}
+                  className="font-mono text-[9px] px-1.5 py-0.5 rounded text-dim bg-ghost"
                 >
                   {tag}
                 </span>
@@ -61,9 +59,9 @@ export default function Projects() {
                   className="w-2.5 h-2.5 rounded-full"
                   style={{ background: project.langColor }}
                 />
-                <span style={{ color: 'var(--mu)' }}>{project.lang}</span>
+                <span className="text-muted-var">{project.lang}</span>
               </div>
-              <span style={{ color: 'var(--dm)' }}>{project.meta}</span>
+              <span className="text-dim">{project.meta}</span>
             </div>
           </div>
         ))}
