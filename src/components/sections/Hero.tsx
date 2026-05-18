@@ -1,5 +1,7 @@
 'use client'
 
+import Image from 'next/image'
+import profile from '@/assets/img/profile_1.jpg'
 import { useChainedTypewriter } from '@/hooks/useChainedTypewriter'
 import { OWNER, C_SHARP_SNIPPET } from '@/data/content'
 import Cursor from '@/components/ui/Cursor'
@@ -79,26 +81,30 @@ export default function Hero() {
 
           {/* TEXT CONTENT — order 1 on mobile, order 1 on desktop */}
           <div className="order-1 lg:order-1 flex flex-col gap-4 md:gap-5 min-w-0 w-full">
-            {/* kernel badge */}
-            <div className="min-w-0">
-              <div className="kernel-badge">
-                <span className="dot" />
-                <span>{OWNER.kernel} LIVE</span>
-              </div>
-            </div>
-
             {/* tag prefix */}
             <div className="font-mono text-[10px] text-[var(--dm)] tracking-wider wrap-anywhere">
               {'< Dev/>  <System.Init />  while(alive) { code(); }'}
             </div>
 
             {/* headline */}
-            <h1 className="text-[26px] sm:text-[32px] md:text-[42px] lg:text-[56px] font-medium leading-[1.1] text-[var(--tx)] font-sans wrap-anywhere">
-              <span className="block">{firstText}</span>
-              <span className="block text-green-bright">
-                {secondText}{isDone && <Cursor />}
-              </span>
-            </h1>
+            <div className="flex items-center gap-4 min-w-0">
+              <div className="shrink-0 rounded-full border-2 border-green p-[2px]">
+                <Image
+                  src={profile}
+                  alt={OWNER.name}
+                  width={80}
+                  height={80}
+                  className="rounded-full object-cover w-14 h-14 md:w-16 md:h-16 lg:w-20 lg:h-20"
+                  priority
+                />
+              </div>
+              <h1 className="text-[26px] sm:text-[32px] md:text-[42px] lg:text-[56px] font-medium leading-[1.1] text-[var(--tx)] font-sans wrap-anywhere min-w-0">
+                <span className="block">{firstText}</span>
+                <span className="block text-green-bright">
+                  {secondText}{isDone && <Cursor />}
+                </span>
+              </h1>
+            </div>
 
             {/* role tag */}
             <div className="font-mono text-base md:text-xl text-green wrap-anywhere">

@@ -1,6 +1,6 @@
 import CursorGlow from '@/components/ui/CursorGlow'
 import WhatsAppButton from '@/components/ui/WhatsAppButton'
-import Sidebar from '@/components/Sidebar'
+import ScrollProgress from '@/components/ScrollProgress'
 import Hero from '@/components/sections/Hero'
 import About from '@/components/sections/About'
 import Skills from '@/components/sections/Skills'
@@ -21,8 +21,8 @@ export default function Home() {
       <KernelBoot />
       <KeyboardNav />
       <LangToggle />
-      <Sidebar />
-      <main className="flex-1 ml-0 md:ml-[168px]">
+      <ScrollProgress />
+      <main className="flex-1">
         <SectionReveal delay={0.4}>
           <section id="hero"><Hero /></section>
         </SectionReveal>
