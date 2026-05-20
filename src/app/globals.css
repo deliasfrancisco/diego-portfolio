@@ -160,3 +160,23 @@ main {
   overflow-wrap: anywhere;
   word-break: break-word;
 }
+
+/* ── react-github-calendar overrides ── */
+.react-activity-calendar text {
+  font-family: 'JetBrains Mono', monospace !important;
+  fill: var(--mu) !important;
+  font-size: 10px !important;
+}
+
+.react-activity-calendar__count,
+.react-activity-calendar__legend-colors,
+.react-activity-calendar__legend {
+  font-family: 'JetBrains Mono', monospace !important;
+  color: var(--mu) !important;
+  font-size: 11px !important;
+}
+
+.react-activity-calendar rect:hover {
+  stroke: var(--g);
+  stroke-width: 1px;
+}

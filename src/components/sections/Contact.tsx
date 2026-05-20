@@ -5,6 +5,7 @@ import { FaLinkedinIn, FaGithub, FaWhatsapp, FaEnvelope } from 'react-icons/fa'
 import type { IconType } from 'react-icons'
 import { OWNER } from '@/data/content'
 import SectionHeader from '@/components/ui/SectionHeader'
+import Container from '@/components/ui/Container'
 import Cursor from '@/components/ui/Cursor'
 import { useLang } from '@/contexts/LangContext'
 import { T } from '@/data/translations'
@@ -55,7 +56,8 @@ export default function Contact() {
   const t        = T[lang].contact
 
   return (
-    <section className="grid-bg py-8 md:py-[42px] px-5 md:px-[38px]">
+    <section className="grid-bg">
+      <Container>
       <SectionHeader command="$ ./contact.exe" />
       <motion.div
         ref={ref}
@@ -138,6 +140,7 @@ export default function Contact() {
           </div>
         </div>
       </motion.div>
+      </Container>
     </section>
   )
 }

@@ -7,11 +7,11 @@ export default function Footer() {
   const t        = T[lang]
 
   return (
-    <footer
-      className="py-6 md:py-4 px-5 md:px-12 text-center font-mono text-[10px] border-t border-bg-border text-dim"
-    >
-      Built with Next.js · TypeScript · Tailwind · {'// Diego Francisco © 2026'}
-      <div className="mt-1 opacity-50">{t.footer.keys}</div>
+    <footer className="border-t border-bg-border">
+      <div className="w-full max-w-[1280px] mx-auto px-5 md:px-12 py-6 md:py-4 text-center font-mono text-[10px] text-dim">
+        Built with Next.js · TypeScript · Tailwind · {'// Diego Francisco © 2026'}
+        <div className="mt-1 opacity-50">{t.footer.keys}</div>
+      </div>
     </footer>
   )
 }

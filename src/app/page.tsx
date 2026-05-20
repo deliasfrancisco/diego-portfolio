@@ -27,19 +27,19 @@ export default function Home() {
           <section id="hero"><Hero /></section>
         </SectionReveal>
         <SectionReveal>
-          <section id="about"><About /></section>
+          <section id="about" className="border-t border-bg-border"><About /></section>
         </SectionReveal>
         <SectionReveal>
-          <section id="skills"><Skills /></section>
+          <section id="skills" className="border-t border-bg-border"><Skills /></section>
         </SectionReveal>
         <SectionReveal>
-          <section id="experience"><Experience /></section>
+          <section id="experience" className="border-t border-bg-border"><Experience /></section>
         </SectionReveal>
         <SectionReveal>
-          <section id="projects"><Projects /></section>
+          <section id="projects" className="border-t border-bg-border"><Projects /></section>
         </SectionReveal>
         <SectionReveal>
-          <section id="contact"><Contact /></section>
+          <section id="contact" className="border-t border-bg-border"><Contact /></section>
         </SectionReveal>
         <Footer />
       </main>

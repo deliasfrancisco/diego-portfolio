@@ -3,6 +3,7 @@ import { useRef } from 'react'
 import { motion, useInView } from 'framer-motion'
 import { EXPERIENCE, INITIAL_COMMIT } from '@/data/content'
 import SectionHeader from '@/components/ui/SectionHeader'
+import Container from '@/components/ui/Container'
 import { useLang } from '@/contexts/LangContext'
 import { T } from '@/data/translations'
 
@@ -13,7 +14,8 @@ export default function Experience() {
   const t        = T[lang]
 
   return (
-    <section className="grid-bg py-8 md:py-[42px] px-5 md:px-[38px]">
+    <section className="grid-bg">
+      <Container>
       <SectionHeader command="$ git log --stat --oneline" />
       <motion.div
         ref={ref}
@@ -74,6 +76,7 @@ export default function Experience() {
           <span className="ml-auto text-[var(--dm)]">{INITIAL_COMMIT.year}</span>
         </div>
       </motion.div>
+      </Container>
     </section>
   )
 }

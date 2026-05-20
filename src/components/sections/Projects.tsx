@@ -3,6 +3,7 @@ import { useRef } from 'react'
 import { motion, useInView } from 'framer-motion'
 import { PROJECTS } from '@/data/content'
 import SectionHeader from '@/components/ui/SectionHeader'
+import Container from '@/components/ui/Container'
 import { useLang } from '@/contexts/LangContext'
 
 export default function Projects() {
@@ -11,7 +12,8 @@ export default function Projects() {
   const { lang } = useLang()
 
   return (
-    <section className="grid-bg py-8 md:py-[42px] px-5 md:px-[38px]">
+    <section className="grid-bg">
+      <Container>
       <SectionHeader command="$ ls -la ~/projects" />
       <motion.div
         ref={ref}
@@ -66,6 +68,7 @@ export default function Projects() {
           </div>
         ))}
       </motion.div>
+      </Container>
     </section>
   )
 }

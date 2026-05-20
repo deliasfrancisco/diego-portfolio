@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import dynamic from 'next/dynamic'
 import SectionHeader from '@/components/ui/SectionHeader'
+import Container from '@/components/ui/Container'
 import { SKILLS } from '@/data/content'
 
 function fibonacciSphere(count: number, radius: number): [number, number, number][] {
@@ -33,7 +34,8 @@ export default function Skills() {
   const positions = fibonacciSphere(SKILLS.length, isMobile ? 3.6 : 4.4)
 
   return (
-    <section className="grid-bg py-8 md:py-[42px] px-5 md:px-[38px]">
+    <section className="grid-bg">
+      <Container>
       <SectionHeader command="# Skills.json" />
 
       <div className="relative w-full max-w-full min-w-0 h-[340px] sm:h-[420px] md:h-[500px] overflow-hidden">
@@ -50,6 +52,7 @@ export default function Skills() {
           {'⟳ drag to rotate · hover to highlight'}
         </div>
       </div>
+      </Container>
     </section>
   )
 }
