@@ -6,6 +6,7 @@ import SectionHeader from '@/components/ui/SectionHeader'
 import TerminalWindow from '@/components/ui/TerminalWindow'
 import Cursor from '@/components/ui/Cursor'
 import GitHubHeatmap from '@/components/ui/GitHubHeatmap'
+import Container from '@/components/ui/Container'
 import { useLang } from '@/contexts/LangContext'
 import { T } from '@/data/translations'
 
@@ -16,7 +17,8 @@ export default function About() {
   const t        = T[lang]
 
   return (
-    <section className="grid-bg py-8 md:py-[42px] px-5 md:px-[38px]">
+    <section className="grid-bg">
+      <Container>
       <SectionHeader command="# About.system" />
       <motion.div
         ref={ref}
@@ -32,8 +34,7 @@ export default function About() {
               {/* Avatar */}
               <div className="flex flex-col items-center mb-5">
                 <div
-                  className="w-16 h-16 rounded-full flex items-center justify-center border-2 border-green font-mono text-xl font-bold text-green mb-2"
-                  style={{ background: 'rgba(34,197,94,0.08)' }}
+                  className="w-16 h-16 rounded-full flex items-center justify-center border-2 border-green font-mono text-xl font-bold text-green mb-2 bg-green-subtle"
                 >
                   {OWNER.initials}
                 </div>
@@ -103,10 +104,11 @@ export default function About() {
           })}
         </div>
 
-        <div className="w-full max-w-full overflow-x-auto mt-5">
+        <div className="mt-6 md:mt-8">
           <GitHubHeatmap />
         </div>
       </motion.div>
+      </Container>
     </section>
   )
 }

@@ -6,6 +6,7 @@ import { useChainedTypewriter } from '@/hooks/useChainedTypewriter'
 import { OWNER, C_SHARP_SNIPPET } from '@/data/content'
 import Cursor from '@/components/ui/Cursor'
 import CodeEditor from '@/components/ui/CodeEditor'
+import Container from '@/components/ui/Container'
 import { useLang } from '@/contexts/LangContext'
 import { T } from '@/data/translations'
 
@@ -72,11 +73,11 @@ function HighlightedSnippet({ code }: { code: string }) {
 export default function Hero() {
   const { lang }                = useLang()
   const t                       = T[lang]
-  const { firstText, secondText, isDone } = useChainedTypewriter(t.hero.greeting, OWNER.name, 55, 400)
+  const { firstText, secondText } = useChainedTypewriter(t.hero.greeting, OWNER.name, 55, 400)
 
   return (
-    <div className="grid-bg min-h-screen flex items-center px-5 md:px-12 py-12 md:py-16">
-      <div className="w-full max-w-[1280px] mx-auto min-w-0">
+    <div className="grid-bg min-h-screen flex items-center">
+      <Container noVerticalPadding className="py-12 md:py-16">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center">
 
           {/* TEXT CONTENT — order 1 on mobile, order 1 on desktop */}
@@ -92,16 +93,18 @@ export default function Hero() {
                 <Image
                   src={profile}
                   alt={OWNER.name}
-                  width={80}
-                  height={80}
+                  width={160}
+                  height={160}
                   className="rounded-full object-cover w-14 h-14 md:w-16 md:h-16 lg:w-20 lg:h-20"
                   priority
                 />
               </div>
               <h1 className="text-[26px] sm:text-[32px] md:text-[42px] lg:text-[56px] font-medium leading-[1.1] text-[var(--tx)] font-sans wrap-anywhere min-w-0">
-                <span className="block">{firstText}</span>
+                <span className="block">
+                  {firstText}{firstText.length > 0 && secondText === '' && <Cursor />}
+                </span>
                 <span className="block text-green-bright">
-                  {secondText}{isDone && <Cursor />}
+                  {secondText}{secondText.length > 0 && <Cursor />}
                 </span>
               </h1>
             </div>
@@ -165,7 +168,7 @@ export default function Hero() {
           </div>
 
         </div>
-      </div>
+      </Container>
     </div>
   )
 }

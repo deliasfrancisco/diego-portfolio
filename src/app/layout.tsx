@@ -35,7 +35,7 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" style={{ background: '#070c08' }}>
+    <html lang="en" className="bg-bg">
       <body className="flex flex-col min-h-screen"><Providers>{children}</Providers></body>
     </html>
   )

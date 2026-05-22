@@ -67,8 +67,7 @@ export default function NavIndicator() {
 
       {/* Mobile drawer */}
       <div
-        className={`fixed left-0 top-0 h-screen z-[65] flex flex-col border-r border-bg-border transition-transform duration-300 ease-in-out md:hidden w-[min(240px,80vw)] ${open ? 'translate-x-0' : '-translate-x-full'}`}
-        style={{ background: '#050a06' }}
+        className={`fixed left-0 top-0 h-screen z-[65] flex flex-col border-r border-bg-border transition-transform duration-300 ease-in-out md:hidden w-[min(240px,80vw)] bg-bg-deep ${open ? 'translate-x-0' : '-translate-x-full'}`}
       >
         <div className="px-4 py-3 border-b border-bg-border font-mono text-[11px] text-green tracking-wider">
           MENU

@@ -24,16 +24,8 @@ function SkillNode({ position, skill, hovered, setHovered, isMobile }: SkillNode
       <div
         onMouseEnter={() => setHovered(skill.name)}
         onMouseLeave={() => setHovered(null)}
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          gap: '6px',
-          cursor: 'pointer',
-          transform: isHovered ? 'scale(1.35)' : 'scale(1)',
-          transition: 'transform 0.2s',
-          willChange: 'transform',
-        }}
+        className="skill-icon-wrapper"
+        style={{ transform: isHovered ? 'scale(1.35)' : 'scale(1)' }}
       >
         <Icon
           size={iconSize}
@@ -44,16 +36,8 @@ function SkillNode({ position, skill, hovered, setHovered, isMobile }: SkillNode
           }}
         />
         <span
-          style={{
-            fontFamily: "'JetBrains Mono', monospace",
-            fontSize: '9px',
-            color: 'rgba(255,255,255,0.8)',
-            whiteSpace: 'nowrap',
-            userSelect: 'none',
-            opacity: isHovered ? 1 : 0.7,
-            textShadow: '0 0 4px rgba(0,0,0,0.9)',
-            transition: 'opacity 0.2s',
-          }}
+          className="skill-icon-label"
+          style={{ opacity: isHovered ? 1 : 0.7 }}
         >
           {skill.name}
         </span>
@@ -89,7 +73,7 @@ export default function SkillsCanvas({ skills, positions, hovered, setHovered, i
     <Canvas
       camera={{ position: [0, 0, cameraZ], fov }}
       gl={{ alpha: true, antialias: true }}
-      style={{ background: 'transparent', width: '100%', height: '100%', maxWidth: '100%' }}
+      className="bg-transparent w-full h-full max-w-full"
     >
       <Suspense fallback={null}>
         <ambientLight intensity={0.8} />

@@ -23,7 +23,16 @@
       "Bash(Measure-Object)",
       "Bash(Select-Object -ExpandProperty Count)",
       "PowerShell(Start-Sleep -Seconds 3; Invoke-WebRequest -Uri \"http://localhost:3000/api/contributions\" -UseBasicParsing | Select-Object -ExpandProperty Content | ConvertFrom-Json | Select-Object -ExpandProperty weeks | Measure-Object | Select-Object -ExpandProperty Count)",
-      "PowerShell(Invoke-WebRequest -Uri \"http://localhost:3000\" -UseBasicParsing | Select-Object -ExpandProperty StatusCode)"
+      "PowerShell(Invoke-WebRequest -Uri \"http://localhost:3000\" -UseBasicParsing | Select-Object -ExpandProperty StatusCode)",
+      "Bash(xargs cat)",
+      "Bash(curl -s \"https://github-contributions-api.jogruber.de/v4/deliasfrancisco?y=last\")",
+      "Bash(curl -s http://localhost:3000/)",
+      "Bash(wait)",
+      "Bash(curl -s http://localhost:3000/ -w \"\\\\n%{http_code}\")",
+      "Bash(taskkill /PID 60072 /F)",
+      "PowerShell(Stop-Process *)",
+      "Bash(cat .next/dev/logs/next-development.log)",
+      "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\('total:', d.get\\('total',{}\\)\\); print\\('contributions count:', len\\(d.get\\('contributions',[]\\)\\)\\); print\\('first entry:', d.get\\('contributions',[]\\)[0] if d.get\\('contributions'\\) else 'none'\\)\")"
     ]
   }
 }

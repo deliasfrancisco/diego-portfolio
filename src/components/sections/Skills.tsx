@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import dynamic from 'next/dynamic'
 import SectionHeader from '@/components/ui/SectionHeader'
+import Container from '@/components/ui/Container'
 import { SKILLS } from '@/data/content'
 
 function fibonacciSphere(count: number, radius: number): [number, number, number][] {
@@ -33,7 +34,8 @@ export default function Skills() {
   const positions = fibonacciSphere(SKILLS.length, isMobile ? 3.6 : 4.4)
 
   return (
-    <section className="grid-bg py-8 md:py-[42px] px-5 md:px-[38px]">
+    <section className="grid-bg">
+      <Container>
       <SectionHeader command="# Skills.json" />
 
       <div className="relative w-full max-w-full min-w-0 h-[340px] sm:h-[420px] md:h-[500px] overflow-hidden">
@@ -46,12 +48,11 @@ export default function Skills() {
         />
 
         {/* hint — backdrop so text stays readable over rotating wireframe */}
-        <div className="absolute bottom-2 left-1/2 -translate-x-1/2 font-mono text-[10px] text-[var(--dm)] tracking-wider pointer-events-none whitespace-nowrap px-3 py-1 rounded"
-          style={{ background: 'rgba(7,12,8,0.6)' }}
-        >
+        <div className="absolute bottom-2 left-1/2 -translate-x-1/2 font-mono text-[10px] text-[var(--dm)] tracking-wider pointer-events-none whitespace-nowrap px-3 py-1 rounded bg-bg-dim">
           {'⟳ drag to rotate · hover to highlight'}
         </div>
       </div>
+      </Container>
     </section>
   )
 }

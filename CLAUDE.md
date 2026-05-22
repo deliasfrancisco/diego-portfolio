@@ -3,7 +3,7 @@
 # Diego Portfolio — Reference
 
 ## Stack
-Next.js 16.2.6 · React 19.2.4 · TypeScript ^5 · Tailwind v4 · Framer Motion ^12.38.0 · JetBrains Mono · @emailjs/browser · three + @react-three/fiber + @react-three/drei · react-icons
+Next.js 16.2.6 · React 19.2.4 · TypeScript ^5 · Tailwind v4 · Framer Motion ^12.38.0 · JetBrains Mono · @emailjs/browser · three + @react-three/fiber + @react-three/drei · react-icons · lucide-react
 
 > Tailwind v4: no `tailwind.config.js` — tokens in `globals.css` `@theme {}`.
 
@@ -12,12 +12,13 @@ Next.js 16.2.6 · React 19.2.4 · TypeScript ^5 · Tailwind v4 · Framer Motion 
 src/app/
   globals.css       @theme + CSS vars + syntax classes + mobile guardrails (.grid-bg .kernel-badge .wrap-anywhere)
   layout.tsx        SEO metadata + Viewport export (prevents 980px phantom width)
-  page.tsx          all sections + KernelBoot + KeyboardNav; main ml-0 md:ml-[168px]
+  page.tsx          all sections + KernelBoot + KeyboardNav + ScrollProgress; main flex-1 (full width, no left margin)
   loading.tsx / robots.ts / sitemap.ts
 
 src/components/
-  Sidebar.tsx       fixed nav 168px; mobile: hamburger z-[70] md:hidden; aside w-[min(240px,80vw)] md:w-[168px]; CSS translate slide
-                    header: profile photo (src/assets/img/profile_1.jpg) via next/image; rounded-full border-2 border-green p-[2px]
+  ScrollProgress.tsx  fixed left-6 top-1/2 -translate-y-1/2 z-40; hidden md:flex; 64vh track with green fill + icon dots
+                      scroll % drives fill height; active section = offsetTop heuristic (35vh buffer)
+                      dots: w-7 h-7 rounded-full, lucide-react icons; tooltip right of dot on hover; pointer-events-none wrapper
   KeyboardNav.tsx   keys 1-6 → scroll to sections
 
   sections/
@@ -59,7 +60,7 @@ src/app/
 |-----|-------|-----|-----|
 | `--bg` | `bg-bg` | `#070c08` | page bg |
 | `--bg-card` | `bg-bg-card` | `#0c1410` | card bg |
-| `--bg-deep` | `bg-bg-deep` | `#050a06` | sidebar/boot |
+| `--bg-deep` | `bg-bg-deep` | `#050a06` | boot screen / deep bg |
 | `--bdr` | `border-bg-border` | `#1c2e1e` | border |
 | `--g` | `text-green` | `#22c55e` | accent |
 | `--gb` | `text-green-bright` | `#4ade80` | hover accent |
@@ -93,7 +94,7 @@ LOADED_MODULES  Hero pills
 - All strings in `src/data/translations.ts` as `T[lang].section.key`
 - `EXPERIENCE[n].descPt` and `PROJECTS[n].descPt` hold PT descriptions inline in content.ts
 - Components consume with: `const { lang } = useLang(); const t = T[lang]`
-- `LangToggle` positioned `right-[52px] md:right-4` — left of mobile hamburger (`right-4 z-[70]`)
+- `LangToggle` positioned `right-[52px] md:right-4` — no hamburger conflict (Sidebar removed)
 - Server layout preserved: `Providers.tsx` client wrapper in `layout.tsx`; `page.tsx` stays server
 
 ## Conventions
@@ -122,8 +123,8 @@ npm run lint   # 0 errors before commit
 ```
 
 ## Mobile
-- Sidebar: `-translate-x-full` hidden; hamburger `fixed top-4 right-4 z-[70] md:hidden`
-- Hero order: editor(1) → CTAs mobile(2) → text col(3)[badge→tag→h1→role→desc→modules]
+- ScrollProgress: `hidden md:flex` — invisible on mobile; no hamburger needed
+- Hero order: text col(order-1)[profile photo + h1 + role + desc + CTAs desktop] → editor + mobile CTAs(order-2)
 - Desktop CTAs: `hidden lg:flex` in text col; mobile CTAs: `flex lg:hidden` below editor
 - Skills mobile: radius 2.6 · z=12 · fov=60 · icon 24px · canvas h-[320px]
 - Viewport export in layout.tsx prevents browser 980px phantom render

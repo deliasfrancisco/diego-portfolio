@@ -17,8 +17,7 @@ export function SectionReveal({
   return (
     <div ref={ref} className={`relative ${className ?? ''}`}>
       <motion.div
-        className="absolute left-0 top-0 bottom-0 w-[2px] bg-green-dark"
-        style={{ transformOrigin: 'top' }}
+        className="absolute left-0 top-0 bottom-0 w-[2px] bg-green-dark origin-top"
         initial={{ scaleY: 0 }}
         animate={inView ? { scaleY: 1 } : { scaleY: 0 }}
         transition={{ duration: 0.55, ease: 'easeOut', delay: delay + 0.2 }}

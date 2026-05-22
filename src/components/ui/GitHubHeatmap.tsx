@@ -1,140 +1,72 @@
 'use client'
-import { useState, useEffect } from 'react'
 
-const WEEKS = 52
-const DAYS  = 7
+import dynamic from 'next/dynamic'
+import { OWNER } from '@/data/content'
 
-function srand(seed: number) {
-  const s = Math.sin(seed * 127.1 + 311.7) * 43758.5453
-  return s - Math.floor(s)
-}
-
-function generateMock() {
-  const today = new Date()
-  const grid: { count: number; date: Date }[][] = []
-
-  for (let w = 0; w < WEEKS; w++) {
-    const week: { count: number; date: Date }[] = []
-    for (let d = 0; d < DAYS; d++) {
-      const daysAgo = (WEEKS - 1 - w) * 7 + (DAYS - 1 - d)
-      const date = new Date(today)
-      date.setDate(date.getDate() - daysAgo)
-
-      const isWeekend = date.getDay() === 0 || date.getDay() === 6
-      const recency   = Math.max(0, 1 - (daysAgo / 30) / 7)
-      const r  = srand(w * 7 + d)
-      const r2 = srand(w * 7 + d + 100)
-
-      let count = 0
-      const prob = (isWeekend ? 0.3 : 0.68) + recency * 0.18
-
-      if (r < prob) {
-        if (isWeekend) {
-          count = Math.floor(r2 * 3) + 1
-        } else {
-          const t = srand(w * 7 + d + 200)
-          if (t < 0.40) count = Math.floor(r2 * 2) + 1
-          else if (t < 0.70) count = Math.floor(r2 * 3) + 3
-          else if (t < 0.90) count = Math.floor(r2 * 4) + 6
-          else               count = Math.floor(r2 * 5) + 10
-        }
-        if (recency > 0.6 && srand(w * 7 + d + 300) < 0.12) count = Math.min(count + 5, 15)
-      }
-
-      week.push({ count, date })
-    }
-    grid.push(week)
+const GitHubCalendar = dynamic(
+  () => import('react-github-calendar').then(m => m.GitHubCalendar),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="h-[120px] rounded-lg bg-bg-card animate-pulse" />
+    ),
   }
-  return grid
+)
+
+const TERMINAL_THEME = {
+  light: ['#1c2e1e', '#0f4a26', '#166534', '#22c55e', '#4ade80'],
+  dark:  ['#1c2e1e', '#0f4a26', '#166534', '#22c55e', '#4ade80'],
 }
 
-function cellColor(n: number) {
-  if (n === 0)  return '#0c1410'
-  if (n <= 2)   return '#0f4a26'
-  if (n <= 5)   return '#166534'
-  if (n <= 9)   return '#22c55e'
-  return '#4ade80'
+interface Props {
+  username?: string
 }
 
-function fmt(d: Date) {
-  return d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })
-}
-
-type Cell = { count: number; date: Date }
-
-export default function GitHubHeatmap() {
-  const [grid, setGrid]   = useState<Cell[][]>([])
-  const [live, setLive]   = useState(false)
-  const [tip,  setTip]    = useState<{ count: number; date: Date; x: number; y: number } | null>(null)
-  const year              = new Date().getFullYear()
-
-  useEffect(() => {
-    async function load() {
-      try {
-        const res = await fetch('/api/contributions')
-        if (!res.ok) throw new Error()
-        const { weeks } = await res.json() as {
-          weeks: { contributionDays: { contributionCount: number; date: string }[] }[]
-        }
-
-        const parsed: Cell[][] = weeks.map((w) =>
-          w.contributionDays.map((d) => ({
-            count: d.contributionCount,
-            date:  new Date(d.date + 'T12:00:00'),
-          }))
-        )
-        setGrid(parsed)
-        setLive(true)
-      } catch {
-        setGrid(generateMock())
-      }
-    }
-
-    load()
-  }, [])
-
-  if (!grid.length) {
-    return <div className="mt-6 h-[130px] rounded-lg bg-bg-card border border-bg-border animate-pulse" />
-  }
+export default function GitHubHeatmap({ username: usernameProp }: Props) {
+  const username =
+    usernameProp ??
+    OWNER.github?.split('/').filter(Boolean).pop() ??
+    'deliasfrancisco'
 
   return (
-    <div className="mt-6">
-      <div className="font-mono text-[10px] text-[var(--dm)] mb-2 flex items-center gap-2">
-        {'// '}{year}{' contribution activity'}
-        {live && <span className="text-green">● live</span>}
+    <div className="w-full">
+      <div className="flex items-center gap-2 mb-3 font-mono text-[10px] tracking-wider">
+        <span className="text-[var(--dm)]">$</span>
+        <span className="text-[var(--gb)]">git log</span>
+        <span className="text-[var(--dm)]">--graph --since=&quot;1 year ago&quot; --author=</span>
+        <span className="text-[var(--g)]">{username}</span>
       </div>
-      <div
-        className="relative rounded-lg border border-bg-border p-4 overflow-x-auto"
-        style={{ background: '#0c1410' }}
-      >
-        <div className="flex gap-[2px]" style={{ width: 'max-content' }}>
-          {grid.map((week, w) => (
-            <div key={w} className="flex flex-col gap-[2px]">
-              {week.map((cell, d) => (
-                <div
-                  key={d}
-                  className="w-[13px] h-[13px] rounded-[3px] cursor-pointer transition-opacity duration-100 hover:opacity-70"
-                  style={{ background: cellColor(cell.count) }}
-                  onMouseEnter={(e) => {
-                    const r  = e.currentTarget.getBoundingClientRect()
-                    const pr = e.currentTarget.closest('.relative')?.getBoundingClientRect()
-                    if (pr) setTip({ ...cell, x: r.left - pr.left + r.width / 2, y: r.top - pr.top })
-                  }}
-                  onMouseLeave={() => setTip(null)}
-                />
-              ))}
-            </div>
-          ))}
-        </div>
 
-        {tip && (
-          <div
-            className="absolute z-10 pointer-events-none font-mono text-[10px] bg-bg-deep border border-bg-border rounded px-2 py-1 text-[var(--mu)] whitespace-nowrap"
-            style={{ left: tip.x, top: tip.y - 8, transform: 'translate(-50%, -100%)' }}
-          >
-            {fmt(tip.date)} · <span className="text-green">{tip.count} commit{tip.count !== 1 ? 's' : ''}</span>
-          </div>
-        )}
+      <div className="bg-[var(--bg-card)] border border-[var(--bdr)] rounded-lg p-4 overflow-x-auto flex justify-center">
+        <GitHubCalendar
+          username={username}
+          theme={TERMINAL_THEME}
+          colorScheme="dark"
+          fontSize={11}
+          blockSize={11}
+          blockMargin={3}
+          blockRadius={2}
+          showColorLegend
+          showMonthLabels
+          showTotalCount
+          labels={{
+            totalCount: '{{count}} contributions in the last year',
+            legend: {
+              less: 'less',
+              more: 'more',
+            },
+          }}
+          style={{
+            color: 'var(--mu)',
+            fontFamily: "'JetBrains Mono', monospace",
+          }}
+          errorMessage="// fetch failed — GitHub data unavailable"
+        />
+      </div>
+
+      <div className="mt-2 font-mono text-[10px] text-[var(--dm)]">
+        {'// synced from '}
+        <span className="text-[var(--gb)]">github.com/{username}</span>
       </div>
     </div>
   )

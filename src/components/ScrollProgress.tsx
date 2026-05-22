@@ -79,26 +79,19 @@ export default function ScrollProgress() {
               type="button"
               onClick={() => scrollTo(id)}
               aria-label={`Go to ${label}`}
-              className="absolute -translate-x-1/2 -translate-y-1/2 pointer-events-auto group focus:outline-none"
-              style={{ top: `${position}%`, left: '50%' }}
+              className="absolute left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-auto group focus:outline-none"
+              style={{ top: `${position}%` }}
             >
               <div
                 className={`
                   w-7 h-7 rounded-full border-2 flex items-center justify-center
-                  transition-all duration-200 bg-[var(--bg)]
-                  ${isActive
-                    ? 'border-[var(--g)] scale-110'
-                    : 'border-[var(--bdr)] hover:border-[var(--gd)] hover:scale-105'
-                  }
+                  transition-all duration-200 bg-[var(--bg)] border-[var(--g)]
+                  ${isActive ? 'scale-110' : 'hover:scale-105'}
                 `}
               >
                 <Icon
                   size={12}
-                  className={
-                    isActive
-                      ? 'text-[var(--g)]'
-                      : 'text-[var(--dm)] group-hover:text-[var(--gd)]'
-                  }
+                  className="text-[var(--g)]"
                 />
               </div>
 
