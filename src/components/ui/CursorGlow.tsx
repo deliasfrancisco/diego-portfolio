@@ -1,14 +1,20 @@
 'use client'
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 export default function CursorGlow() {
   const glowRef   = useRef<HTMLDivElement>(null)
   const circleRef = useRef<HTMLDivElement>(null)
+  const [show, setShow] = useState(false)
 
   useEffect(() => {
+    setShow(window.matchMedia('(pointer: fine)').matches)
+  }, [])
+
+  useEffect(() => {
+    if (!show) return
     const glow   = glowRef.current
     const circle = circleRef.current
-    if (!glow || !circle || !window.matchMedia('(pointer: fine)').matches) return
+    if (!glow || !circle) return
 
     const onMove = (e: MouseEvent) => {
       glow.style.opacity   = '1'
@@ -20,7 +26,9 @@ export default function CursorGlow() {
 
     window.addEventListener('mousemove', onMove, { passive: true })
     return () => window.removeEventListener('mousemove', onMove)
-  }, [])
+  }, [show])
+
+  if (!show) return null
 
   return (
     <>
